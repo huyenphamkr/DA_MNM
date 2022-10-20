@@ -14,15 +14,15 @@ return new class extends Migration
     public function up()
     {
         //bang roles
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('role', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
         });
 
         //bang slide
-        Schema::create('slides', function (Blueprint $table) {
+        Schema::create('slide', function (Blueprint $table) {
             $table->id();
             $table->string('image');
             $table->string('link');
@@ -30,7 +30,7 @@ return new class extends Migration
         });
 
         //bang status
-        Schema::create('statuses', function (Blueprint $table) {
+        Schema::create('status', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('description');
@@ -38,16 +38,16 @@ return new class extends Migration
         });
 
         //bang categories
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('category', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->string('image');
             $table->timestamps();
         });
 
         //bang suppliers
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('supplier', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('address');
@@ -70,21 +70,21 @@ return new class extends Migration
             $table->integer('active');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('role_id')->references('id')->on('role');
         });
 
         //bang product
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('product', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id');
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->string('image');            
             $table->integer('amount');
             $table->double('price');            
             $table->string('unit');
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('category');
         });
 
         //bang orders
@@ -100,16 +100,16 @@ return new class extends Migration
         });
 
         //bang orderdetails
-        Schema::create('orderdetails', function (Blueprint $table) {
+        Schema::create('orderdetail', function (Blueprint $table) {
             $table->id('order_id');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('status_id');
             $table->integer('quantity');     
             $table->double('price');    
             $table->timestamps();
-            $table->foreign('order_id')->references('id')->on('orders');
-            $table->foreign('product_id')->references('id')->on('products'); 
-            $table->foreign('status_id')->references('id')->on('statuses');            
+            $table->foreign('order_id')->references('id')->on('order');
+            $table->foreign('product_id')->references('id')->on('product'); 
+            $table->foreign('status_id')->references('id')->on('status');            
         });
 
         //bang purchases
@@ -123,18 +123,18 @@ return new class extends Migration
             $table->string('payment');
             $table->timestamps();            
             $table->foreign('user_id')->references('id')->on('users');  
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->foreign('supplier_id')->references('id')->on('supplier');
         });
 
         //bang purchasedetails
-        Schema::create('purchasedetails', function (Blueprint $table) {
+        Schema::create('purchasedetail', function (Blueprint $table) {
             $table->id('purchase_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
             $table->double('price');
             $table->timestamps();
             $table->foreign('purchase_id')->references('id')->on('purchases');  
-            $table->foreign('product_id')->references('id')->on('products');  
+            $table->foreign('product_id')->references('id')->on('product');  
         });
 
 
@@ -147,16 +147,16 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
-        Schema::dropIfExists('slides');
-        Schema::dropIfExists('statuses');
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('role');
+        Schema::dropIfExists('slide');
+        Schema::dropIfExists('status');
+        Schema::dropIfExists('category');
+        Schema::dropIfExists('supplier');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('product');
         Schema::dropIfExists('orders');
-        Schema::dropIfExists('orderdetails');
+        Schema::dropIfExists('orderdetail');
         Schema::dropIfExists('purchases');        
-        Schema::dropIfExists('purchasedetails');
+        Schema::dropIfExists('purchasedetail');
     }
 };
