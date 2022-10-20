@@ -55,11 +55,8 @@
                                     {{-- Xuất quyền level --}}
                                         @if (Auth::check())
                                         (
-                                        @if( Auth::user()->level == 1)
-                                            {{ "SuperAdmin" }}
-                                        @elseif( Auth::user()->level == 2)
-                                            {{ "Admin" }}
-                                        @endif
+                                            {{ App\Models\Role::find(Auth::user()->role_id)->name}}
+                                        
                                         )
                                     @endif
                                 </a>
