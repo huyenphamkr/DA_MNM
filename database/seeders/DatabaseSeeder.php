@@ -662,40 +662,115 @@ class DatabaseSeeder extends Seeder
         $data_orders = [
             [
                 'user_id'=>4,
-                'date'=>'',
-                'total'=>200,
-                'note'=>'',
-                'payment'=>'',	
+                'date'=>'2022-09-12',
+                'total'=>2000000,
+                'note'=>'note',
+                'payment'=>'Thanh toán khi nhận hàng',	
+            ],
+            [
+                'user_id'=>5,
+                'date'=>'2022-10-21',
+                'total'=>200000,
+                'note'=>'note',
+                'payment'=>'Thanh toán khi nhận hàng',	
+            ],
+            [
+                'user_id'=>6,
+                'date'=>'2022-10-12',
+                'total'=>200000,
+                'note'=>'note',
+                'payment'=>'Thanh toán khi nhận hàng',	
             ],
         ];
 
         $data_ordesdetail = [
             [
-                'order_id'=>4,
-                'product_id'=>4,
-                'status_id'=>4,
+                'order_id'=>3,
+                'product_id'=>8,
+                'status_id'=>5,
+                'quantity'=>1,
+                'price'=>200000,
+            ],
+            [
+                'order_id'=>2,
+                'product_id'=>15,
+                'status_id'=>1,
                 'quantity'=>4,
-                'price'=>4,
+                'price'=>40000,
+            ],
+            [
+                'order_id'=>2,
+                'product_id'=>16,
+                'status_id'=>1,
+                'quantity'=>4,
+                'price'=>20000,
+            ],
+            [
+                'order_id'=>1,
+                'product_id'=>17,
+                'status_id'=>3,
+                'quantity'=>1,
+                'price'=>1000000,
+            ],
+            [
+                'order_id'=>1,
+                'product_id'=>34,
+                'status_id'=>3,
+                'quantity'=>1,
+                'price'=>500000,
+            ],
+            [
+                'order_id'=>1,
+                'product_id'=>11,
+                'status_id'=>3,
+                'quantity'=>1,
+                'price'=>500000,
             ],
         ];
 
         $data_purchases = [
             [
-                'user_id'=>4,
+                'user_id'=>2,
                 'supplier_id'=>1,
-                'date'=>'',
-                'total'=>300,
-                'note'=>'',
-                'paymen'=>'',
+                'date'=>'2021-10-10',
+                'total'=>30000000,
+                'note'=>'Nhập hàng',
+                'payment'=>'Thanh toán khi nhận hàng',
+            ],
+            [
+                'user_id'=>2,
+                'supplier_id'=>3,
+                'date'=>'2022-10-10',
+                'total'=>10000000,
+                'note'=>'Nhập hàng',
+                'payment'=>'Thanh toán khi nhận hàng',
             ],
         ];
 
         $data_purchasedetail = [
             [
                 'purchase_id'=>1,
-                'product_id'=>1,
+                'product_id'=>6,
+                'quantity'=>10,
+                'price'=>1000000,
+            ],
+            [
+                'purchase_id'=>1,
+                'product_id'=>44,
+                'quantity'=>5,
+                'price'=>2000000,
+            ],
+            [
+                'purchase_id'=>1,
+                'product_id'=>22,
                 'quantity'=>1,
-                'price'=>1,
+                'price'=>10000000,
+            ],
+            [
+                'purchase_id'=>2,
+                'product_id'=>24,
+                'quantity'=>2,
+                'price'=>5000000,
             ],
         ];
 
@@ -704,6 +779,10 @@ class DatabaseSeeder extends Seeder
         //DB::table('supplier')->insert($data_supplier);
        // DB::table('status')->insert($data_status);data_category
        //DB::table('category')->insert($data_category);
-
+       //DB::table('product')->insert($data_product);
+      // DB::table('orders')->insert($data_orders);
+      // DB::table('orderdetail')->insert($data_ordesdetail); 
+       //DB::table('purchases')->insert($data_purchases); 
+       DB::table('purchasedetail')->insert($data_purchasedetail);      
     }
 }

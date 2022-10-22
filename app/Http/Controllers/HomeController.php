@@ -26,7 +26,9 @@ class HomeController extends Controller
     {
         if(Auth::user()->role_id != 3)
         {
-            return view('home');
+            return view('admin.home', [
+                'title'=>'Admin Dashboard'
+            ]);
         }
         else
         {

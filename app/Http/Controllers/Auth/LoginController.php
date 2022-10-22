@@ -71,7 +71,7 @@ class LoginController extends Controller
      
             if( Auth::attempt(['email' => $email, 'password' =>$password])) {
                 // Kiểm tra đúng email và mật khẩu sẽ chuyển trang
-                return redirect('admin');
+                return redirect('admin/home');
             } else {
                 // Kiểm tra không đúng sẽ hiển thị thông báo lỗi
                 session()->flash('error', 'Email hoặc mật khẩu không đúng!');
