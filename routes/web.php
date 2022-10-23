@@ -46,14 +46,17 @@ Route::post('admin/logout', [LogoutController::class, 'getLogout'])->name('logou
     Route::get('/', [HomeController::class,'index'])->name('home');
     Route::get('home', [HomeController::class,'index'])->name('home');  
 
-    //Danh muc Category
+    //Danh mục Category
     Route::prefix('category')->group(function (){
+        //Thêm danh mục
         Route::get('add',[CategoryController::class,'create']);
         Route::post('add',[CategoryController::class,'store']);
-
+        //Hiển thị danh sách danh mục
         Route::get('list',[CategoryController::class,'index']);
+        //Xóa danh mục
+        Route::get('destroy/{id}',[CategoryController::class,'destroy']);
         
-        Route::DELETE('destroy',[CategoryController::class,'destroy']);
+       // Route::DELETE('destroy',[CategoryController::class,'destroy']);
     });
 
     });    

@@ -25,12 +25,12 @@
             <td style="text-align: center">{{ $category->active }}</td>       
             <td>{{ $category->updated_at}}</td>
 			<td>
-              <a class="btn btn-primary btn-sm" href="/admin/category/edit/{{ $category->id }}">
-                <i class="fas fa-edit"></i>
-              </a>
-              <a class="btn btn-danger btn-sm" href="/admin/category/destroy/{{ $category->id }}">
-                <i class="fas fa-trash"></i>
-              </a>
+                <a class="btn btn-primary btn-sm" href="{{ url('admin/category/edit/'.$category->id.'') }}">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="btn btn-danger btn-sm" href="{{ url('admin/category/destroy/'.$category->id.'') }}">
+                    <i class="fas fa-trash"></i>
+                </a>
             </td>
 		</tr>
 {{-- Kết thúc vòng lập foreach? --}}

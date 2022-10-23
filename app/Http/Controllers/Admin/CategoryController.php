@@ -49,19 +49,14 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function destroy(Request $request) 
+    public function destroy($id) 
     {
-        // $result =  $this->categoryService->destroy($request);
-        // if($result)
-        // {
-        //     session()->flash('success', 'Xóa Danh Mục Thành Công');
-        //     return response()->json([
-        //         'error'=> false,
-        //         'message'=>'Xóa thành công'                
-        //     ]);
-        // }
-        // return response()->json([
-        //     'error'=> true,
-        // ]);
+        try{
+            Category::where('id',$id)->delete();
+            session()->flash('success', 'Xóa Danh Mục Thành Công');
+        }catch(\Exception $err){
+            session()->flash('error', $err->getMessage());
+        }
+        return redirect('admin/category/list');
     }
 }
