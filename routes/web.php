@@ -48,15 +48,16 @@ Route::post('admin/logout', [LogoutController::class, 'getLogout'])->name('logou
 
     //Danh mục Category
     Route::prefix('category')->group(function (){
-        //Thêm danh mục
+        //Thêm
         Route::get('add',[CategoryController::class,'create']);
         Route::post('add',[CategoryController::class,'store']);
-        //Hiển thị danh sách danh mục
+        //Hiển thị danh sách
         Route::get('list',[CategoryController::class,'index']);
-        //Xóa danh mục
+        //Xóa
         Route::get('destroy/{id}',[CategoryController::class,'destroy']);
-        
-       // Route::DELETE('destroy',[CategoryController::class,'destroy']);
+        //Cập nhật
+        Route::get('edit/{id}',[CategoryController::class,'show']);
+        Route::post('edit/{id}',[CategoryController::class,'update']);        
     });
 
     });    

@@ -8,16 +8,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{asset('template/admin/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
-      </div> --}}
-
       <!-- SidebarSearch Form -->
       <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
@@ -62,12 +52,6 @@
                 <a href="{{ url('admin/category/add') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Thêm danh mục</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url('admin/category/') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Cập nhật danh mục</p>
                 </a>
               </li>
             </ul>

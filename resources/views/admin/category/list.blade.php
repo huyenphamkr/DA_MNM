@@ -22,7 +22,13 @@
 			<td>{{ $category->id }}</td>
 			<td>{{ $category->name }}</td>
             <td>{{ $category->description }}</td>
-            <td style="text-align: center">{{ $category->active }}</td>       
+            <td style="text-align: center">
+                @if ($category->active == 0)
+                    <span class = "btn btn-danger btn-xs">NO</span>
+                @else
+                    <span class = "btn btn-success btn-xs">YES</span>
+               @endif 
+            </td>       
             <td>{{ $category->updated_at}}</td>
 			<td>
                 <a class="btn btn-primary btn-sm" href="{{ url('admin/category/edit/'.$category->id.'') }}">
@@ -73,6 +79,7 @@
         </div>
     </div>
 </div>
+
 </div>
     </div>
     <!-- /.card-body -->
