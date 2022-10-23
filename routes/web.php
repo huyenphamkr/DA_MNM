@@ -39,6 +39,7 @@ Route::post('admin/logout', [LogoutController::class, 'getLogout'])->name('logou
 //  });
 
  Route::middleware(['auth'])->group(function(){
+    
     Route::prefix('admin')->group(function (){
 
     // Sửa đường dẫn trang chủ mặc định
@@ -49,6 +50,10 @@ Route::post('admin/logout', [LogoutController::class, 'getLogout'])->name('logou
     Route::prefix('category')->group(function (){
         Route::get('add',[CategoryController::class,'create']);
         Route::post('add',[CategoryController::class,'store']);
+
+        Route::get('list',[CategoryController::class,'index']);
+        
+        Route::DELETE('destroy',[CategoryController::class,'destroy']);
     });
 
     });    

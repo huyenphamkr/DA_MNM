@@ -11,5 +11,6 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('template/admin/dist/css/adminlte.min.css')}}">
 
-  
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])

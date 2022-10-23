@@ -53,7 +53,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../../index.html" class="nav-link">
+                <a href="{{ url('admin/category/list') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Danh sách danh mục</p>
                 </a>
@@ -65,7 +65,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
+                <a href="{{ url('admin/category/') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cập nhật danh mục</p>
                 </a>

@@ -5,21 +5,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Category\CreateFormRequest;
-use App\Http\Services\Category\CategoryService;
-
-
-
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    protected $categoryService;
-
-    public function __construct(CategoryService $categoryService)
-    {
-       $this->categoryService = $categoryService;
-    }
-
     public function create()
     {
         return view('admin.category.add',[
@@ -27,10 +16,52 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function store(CreateFormRequest $request)
+    public function store(Request $request)
+    {    
+        $this->validate($request,
+        [
+            'name'=> 'required' ,
+        ],
+        [
+            'name.required' => 'Vui lòng nhập Tên Danh Mục',
+        ]);
+        date_default_timezone_set("Asia/Ho_Chi_Minh");
+        try{
+            Category::create([
+                'name' => (string) $request->input('name'),
+                'description' => (string) $request->input('description'),
+                'active' => (int) $request->input('active')
+            ]);
+            session()->flash('success', 'Tạo Danh Mục Thành Công');
+        }catch(\Exception $err){
+            session()->flash('error', $err->getMessage());
+        }
+        return redirect('admin/category/add');
+    }
+
+
+    public function index()
     {
-       // dd($request->input());
-       $result = $this->categoryService->create($request);
-       return redirect()->back();
+        $category = category::all();
+        return view('admin.category.list',[
+            'title'=>"Danh Sách Danh Mục Mới",
+            'category'=>$category,
+        ]);
+    }
+
+    public function destroy(Request $request) 
+    {
+        // $result =  $this->categoryService->destroy($request);
+        // if($result)
+        // {
+        //     session()->flash('success', 'Xóa Danh Mục Thành Công');
+        //     return response()->json([
+        //         'error'=> false,
+        //         'message'=>'Xóa thành công'                
+        //     ]);
+        // }
+        // return response()->json([
+        //     'error'=> true,
+        // ]);
     }
 }
