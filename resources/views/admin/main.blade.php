@@ -41,10 +41,11 @@
       @else
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    {{ Auth::user()->name }}
+                    {{ Auth::user()->name }}(
                     @if (Auth::check())
                     {{ App\Models\Role::find(Auth::user()->role_id)->name}}                                        
                     @endif
+                    )
                 </a>                                    
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -81,32 +82,12 @@
     <section class="content">
       <div class="container-fluid">
 
-        
-        @include('admin.alert')
-        
+        @include('admin.alert')        
 
-        <div class="row">
-          <!-- left column -->
-          <div class="col-md-12">
-            <!-- jquery validation -->
-            <div class="card card-primary mt-3">
-              <div class="card-header">
-                <h3 class="card-title">{{$title}}</h3>
-              </div>
+        @yield('content')
 
-
-              @yield('content')
-
-
-
-            </div>
-            </div>
-          <!--/.col (left) -->
-        </div>
-        <!-- /.row -->
        
       </div>
-      
       <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -118,8 +99,12 @@
     </div>
     <strong>Copyright &copy; 2014-2021 <a href="#">AdminLTE.io</a>.</strong> All rights reserved.
   </footer>
+
 </div>
 <!-- ./wrapper -->
+<a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+  <i class="fas fa-chevron-up"></i>
+</a>
 
 @include('admin.footer')
 

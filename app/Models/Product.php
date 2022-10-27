@@ -21,5 +21,21 @@ class Product extends Model
     public function orderdetail(){
         return $this->hasMany('App\Models\Orderdetail','product_id', 'id');
     }
+
+    public function scopeSearch($query)
+    {
+        if($key = request()->key)
+        {
+            $query = $query->where('name', 'like', '%'.$key.'%')
+            ->orwhere('id', 'like', '%'.$key.'%')
+            ->orwhere('description', 'like', '%'.$key.'%')            
+            ->orwhere('updated_at', 'like', '%'.$key.'%')            
+            ->orwhere('active', 'like', '%'.$key.'%')
+            ->orwhere('price', 'like', '%'.$key.'%')
+            ->orwhere('amount', 'like', '%'.$key.'%')
+            ->orwhere('category_id', 'like', '%'.$key.'%');
+        }
+        return $query;
+    }
 }
 

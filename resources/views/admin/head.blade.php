@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="{{asset('template/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('template/admin/dist/css/adminlte.min.css')}}">
-
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+  
+  <link rel="icon" type="image/png" sizes="144x144" href="{{asset('image/furniture-logo-cricle.png')}}">
 
   @vite(['resources/sass/app.scss', 'resources/js/app.js'])

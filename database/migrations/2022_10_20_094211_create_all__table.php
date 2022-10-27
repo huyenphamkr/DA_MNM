@@ -70,7 +70,7 @@ return new class extends Migration
             $table->integer('active');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('role_id')->references('id')->on('role');
+            //$table->foreign('role_id')->references('id')->on('role');
         });
 
         //bang product
@@ -84,7 +84,7 @@ return new class extends Migration
             $table->double('price');            
             $table->string('unit');
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('category');
+           // $table->foreign('category_id')->references('id')->on('category');
         });
 
         //bang orders
@@ -96,7 +96,7 @@ return new class extends Migration
             $table->text('note');           
             $table->string('payment');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            //$table->foreign('user_id')->references('id')->on('users');
         });
 
         //bang orderdetails
@@ -107,9 +107,9 @@ return new class extends Migration
             $table->integer('quantity');     
             $table->double('price');    
             $table->timestamps();
-            $table->foreign('order_id')->references('id')->on('order');
-            $table->foreign('product_id')->references('id')->on('product'); 
-            $table->foreign('status_id')->references('id')->on('status');            
+            //$table->foreign('order_id')->references('id')->on('order');
+            //$table->foreign('product_id')->references('id')->on('product'); 
+            //$table->foreign('status_id')->references('id')->on('status');            
         });
 
         //bang purchases
@@ -122,8 +122,8 @@ return new class extends Migration
             $table->text('note');
             $table->string('payment');
             $table->timestamps();            
-            $table->foreign('user_id')->references('id')->on('users');  
-            $table->foreign('supplier_id')->references('id')->on('supplier');
+            //$table->foreign('user_id')->references('id')->on('users');  
+           // $table->foreign('supplier_id')->references('id')->on('supplier');
         });
 
         //bang purchasedetails
@@ -133,8 +133,8 @@ return new class extends Migration
             $table->integer('quantity');
             $table->double('price');
             $table->timestamps();
-            $table->foreign('purchase_id')->references('id')->on('purchases');  
-            $table->foreign('product_id')->references('id')->on('product');  
+           // $table->foreign('purchase_id')->references('id')->on('purchases');  
+            //$table->foreign('product_id')->references('id')->on('product');  
         });
 
 
@@ -147,16 +147,16 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role');
-        Schema::dropIfExists('slide');
-        Schema::dropIfExists('status');
-        Schema::dropIfExists('category');
-        Schema::dropIfExists('supplier');
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('product');
-        Schema::dropIfExists('orders');
-        Schema::dropIfExists('orderdetail');
-        Schema::dropIfExists('purchases');        
-        Schema::dropIfExists('purchasedetail');
+        // Schema::dropIfExists('role');
+        // Schema::dropIfExists('slide');
+        // Schema::dropIfExists('status');
+        // Schema::dropIfExists('category');
+        // Schema::dropIfExists('supplier');
+        // Schema::dropIfExists('users');
+        // Schema::dropIfExists('product');
+        // Schema::dropIfExists('orders');
+        // Schema::dropIfExists('orderdetail');
+        // Schema::dropIfExists('purchases');        
+        // Schema::dropIfExists('purchasedetail');
     }
 };

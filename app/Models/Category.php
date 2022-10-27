@@ -17,4 +17,13 @@ class Category extends Model
     public function product(){
         return $this->hasMany('App\Models\Product','category_id', 'id');
     }
+
+    public function scopeSearch($query)
+    {
+        if($key = request()->key)
+        {
+            $query = $query->where('name', 'like', '%'.$key.'%');
+        }
+        return $query;
+    }
 }
