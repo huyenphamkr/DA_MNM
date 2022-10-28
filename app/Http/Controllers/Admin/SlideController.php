@@ -16,6 +16,7 @@ class SlideController extends Controller
     public function index()
     {
         $slides = Slide::orderByDesc('id')->paginate(5); //paginate(5);
+        
         return view('admin.slide.list',[
             'title'=>'Danh Sách Slide',
             'slides'=>$slides,

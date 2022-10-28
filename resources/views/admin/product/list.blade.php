@@ -17,11 +17,13 @@
 
     <div class="col-md-2">
       <div class="form-group">
-          <label>Danh mục:</label>
+          <label>Danh mục:</label>                 
           <select class="form-control custom-select"  style="width: 100%;" data-select2-id="3" tabindex="-1" aria-hidden="true">
-              <option selected="" data-select2-id="5">Tăng dần</option>
-              <option data-select2-id="21">Giảm dần</option>
-          </select>
+            <option selected="" data-select2-id="5">Chọn danh mục</option>
+              @foreach ($categories as $category)                
+                <option value="{{$category->id}}" data-select2-id="21">{{$category->name}}</option>
+              @endforeach
+          </select>          
         </div>
     </div>
 
@@ -29,8 +31,9 @@
       <div class="form-group">
           <label>Kích hoạt:</label>
           <select class="form-control custom-select"  style="width: 100%;" data-select2-id="3" tabindex="-1" aria-hidden="true">
-              <option selected="" data-select2-id="5">Tăng dần</option>
-              <option data-select2-id="21">Giảm dần</option>
+            <option selected="" data-select2-id="5">Chọn kích hoạt</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
           </select>
         </div>
     </div>

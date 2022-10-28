@@ -23,12 +23,14 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $categories = Category::all();
        // $products = Product::all()->paginate(15);
        //$products = Product::orderBy('id')->paginate(15); //paginate(5);
        $products = Product::orderByDesc('id')->Search()->paginate(15); //paginate(5);
         return view('admin.product.list',[
             'title'=>'Danh Sách Sản Phẩm',
             'products'=>$products,
+            'categories'=>$categories,
         ]);
     }
 
