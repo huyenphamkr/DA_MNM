@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\User\LoginController;
+use App\Http\Controllers\Admin\User\LogoutController;
 use App\Models\Role;
 /*
 |--------------------------------------------------------------------------
