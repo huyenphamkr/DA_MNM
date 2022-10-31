@@ -5,8 +5,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
-use App\Http\Controllers\Admin\User\LoginController;
-use App\Http\Controllers\Admin\User\LogoutController;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +19,7 @@ use App\Models\Role;
 */
 
 Route::get('/', function () {
+    Auth::logout();
     return view('welcome');
 });
 /*
@@ -34,12 +34,17 @@ DELETE => destroy => khi xóa
 //Admin -------------------------------Admin-------------------Admin---------------------
 
 //login
-Route::get('admin/login', [LoginController::class, 'getLogin'])->name('login');
-Route::post('admin/postlogin', [LoginController::class, 'postLogin'])->name('postlogin');
+Route::get('admin/login', [HomeController::class, 'getLogin'])->name('login');
+Route::post('admin/postlogin', [HomeController::class, 'postLogin'])->name('postlogin');
 
 //logout
-Route::post('admin/logout', [LogoutController::class, 'getLogout'])->name('logout');
+Route::post('admin/logout', [HomeController::class, 'getLogout'])->name('logout');
 
+//reset password
+Route::get('admin/forget-password', [HomeController::class, 'getForgetPass'])->name('ForgetPass');
+Route::post('admin/forget-password', [HomeController::class, 'postForgetPass']);
+Route::get('admin/get-password/{user}/{token}', [HomeController::class, 'getPass'])->name('getPass');
+Route::post('admin/get-password/{user}/{token}', [HomeController::class, 'postPass']);
 
 Route::middleware(['auth'])->group(function(){
     
