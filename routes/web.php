@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SlideController;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +22,8 @@ Route::get('/', function () {
     Auth::logout();
     return view('welcome');
 });
+
+
 /*
 GET => index => danh sách
 GET => create => form thêm mới
@@ -95,6 +97,32 @@ Route::middleware(['auth'])->group(function(){
             //Xóa
             Route::get('destroy/{id}',[SlideController::class,'destroy']);                  
         });
+
+         //Hóa đơn Orders
+         Route::prefix('orders')->group(function (){
+            //Hiển thị danh sách
+            Route::get('list',[OrdersController::class,'index']);
+            //Thêm
+            Route::get('add',[OrdersController::class,'create']);
+            Route::post('add',[OrdersController::class,'store']);
+            //Cập nhật
+            Route::get('show/{id}',[OrdersController::class,'show']);
+            // Route::post('update',[OrdersController::class,'update']);
+            Route::post('update/{orderid}/{statusid}',[OrdersController::class,'update']);
+
+            //Xóa
+            Route::get('destroy/{id}',[OrdersController::class,'destroy']);    
+            //in  
+            Route::get('print/{id}',[OrdersController::class,'print']);                 
+        });
     });    
  });
- 
+
+// Route::get('test', [OrdersController::class,'test']);
+// Route::get('testa',function()
+// {
+//     $orders = Orders::find('1')->with('products')->first();
+//     print "<pre>";
+// print_r($orders);
+// print "</pre>";
+// });

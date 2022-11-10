@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
-use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
-use PhpParser\Node\Expr\Cast\Double;
 
 class ProductController extends Controller
 {

@@ -3,8 +3,8 @@
 @section('content')
 
 <form action="">
-
-  <div class="row">
+  
+  {{-- <div class="row">
     <div class="col-md-2">
       <div class="form-group">
           <label>Sắp xếp sản phẩm:</label>
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-  </div>
+  </div> --}}
   {{-- <div class="row">
     <label>Giá:</label>
     <div class="col-md-2">

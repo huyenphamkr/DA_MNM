@@ -41,7 +41,7 @@ return [
         'icon' => 'fa-images',
         'items' => [
             [
-                'label' => 'Danh Sách Slidec',
+                'label' => 'Danh Sách Slide',
                 'route' => 'admin/slide/list',
             ],
             [

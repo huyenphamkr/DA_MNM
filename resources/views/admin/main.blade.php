@@ -108,5 +108,6 @@
 
 @include('admin.footer')
 
+@yield('handle')
 </body>
 </html>

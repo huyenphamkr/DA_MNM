@@ -22,6 +22,13 @@ class Product extends Model
         return $this->hasMany('App\Models\Orderdetail','product_id', 'id');
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany('App\Models\Orders','orderdetail', 'order_id', 'product_id')
+        ->withPivot('quantity','price');
+    }
+
+
     public function scopeSearch($query)
     {
         if($key = request()->key)

@@ -9,8 +9,10 @@ class Purchases extends Model
 {
     use HasFactory;
     protected $table = 'purchases';
-    public function purchasedetail(){
-        return $this->hasMany('App\Models\Purchasedetail','purchase_id', 'id');
+    public function products()
+    {
+        return $this->belongsToMany('App\Models\Product', 'purchasedetail', 'purchase_id', 'product_id')
+        ->withPivot('quantity','price');
     }
 
     public function supplier(){
