@@ -3,7 +3,7 @@
 @section('content')
 
 <form action="">
-  <div class="row">
+  {{-- <div class="row">
     <div class="col-md-3">
       <div class="form-group">
           <label>Sắp xếp danh mục:</label>
@@ -23,8 +23,8 @@
           </select>
         </div>
     </div>
-  </div>
-  <div class="form-group" >
+  </div> --}}
+  <div class="form-group" style="margin-top: 15px">
     <div class="input-group input-group-lg">
         <input type="search" name="key" class="form-control" placeholder="Nhập từ khóa cần tìm vào đây" value="">
         <div class="input-group-append">
@@ -64,30 +64,33 @@
         <tr>
           <td style="text-align: center">{{ $key+1 }}</td>
           <td style="text-align: center">{{ $category->id }}</td>
-          <td>{{ $category->name }}</td>
-              <td>{{ $category->description }}</td>
-              <td style="text-align: center">
-              @if ($category->active == 0)
-                  <span class = "btn btn-danger btn-ms">NO</span>
-              @else
-                  <span class = "btn btn-success btn-ms">YES</span>
-              @endif 
-              </td>     
-              <td>{{ $category->updated_at}}</td>
-              <td style="text-align: center;">
-                  <a class="btn btn-primary btn-sm" href="{{ url('admin/category/edit/'.$category->id.'') }}">
-                      <i class="fas fa-edit"></i>
-                  </a>
-                  <a class="btn btn-danger btn-sm" href="{{ url('admin/category/destroy/'.$category->id.'') }}">
-                      <i class="fas fa-trash"></i>
-                  </a>
-              </td>
-          </tr>
+          <td  style="text-align: center">
+            <p>{{ $category->name}}</p>
+              <img src="{{asset($category->image)}}" alt="{{ $category->name }}" style="width:80px; height:50px"> 
+          </td>    
+          <td>{{ $category->description }}</td>
+          <td style="text-align: center">
+            @if ($category->active == 0)
+              <span class = "btn btn-danger btn-ms">Không</span>
+            @else
+              <span class = "btn btn-success btn-ms">Có</span>
+            @endif 
+          </td>     
+          <td>{{ $category->updated_at}}</td>
+          <td style="text-align: center;">
+            <a class="btn btn-primary btn-sm" href="{{ url('admin/category/edit/'.$category->id.'') }}">
+              <i class="fas fa-edit"></i>
+            </a>
+            <a class="btn btn-danger btn-sm" href="{{ url('admin/category/destroy/'.$category->id.'') }}">
+              <i class="fas fa-trash"></i>
+            </a>
+          </td>
+        </tr>
       {{-- Kết thúc vòng lập foreach --}}
         @endforeach 
         </tbody>
       </table>
-      {!! $categories->links('vendor.pagination.bootstrap-5') !!}
+      {!! $categories->appends(request()->all())->links('vendor.pagination.bootstrap-5') !!}
     </div>
   </div>
 <!--/.col (left) -->

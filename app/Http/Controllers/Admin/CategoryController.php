@@ -25,18 +25,35 @@ class CategoryController extends Controller
     {    
         $this->validate($request,
         [
-            'name'=> 'required|unique:Category,name',            
+            'name'=> 'required|unique:Category,name',    
+            'fileimage' => 'required|image|mimes:jpg,jpeg,png',               
         ],
         [
             'name.required' => 'Vui lòng nhập Tên Danh Mục',
             'name.unique' => 'Tên danh mục đã tồn tại',
+            'fileimage.required' => 'Vui lòng chọn file ảnh cho danh mục',
+            'fileimage.image' => 'Vui lòng chọn file là file ảnh',
+            'fileimage.mimes' => 'Vui lòng chọn file ảnh có đuôi png, jpg, jpeg',
         ]);
         try{
-            Category::create([
-                'name' => (string) $request->input('name'),
-                'description' => (string) $request->input('description'),
-                'active' => (int) $request->input('active')
-            ]);
+            $category = new Category();
+            $category->name = (string) $request->input('name');
+            $category->description = (string) $request->input('description');
+            $category->active = (int) $request->input('active');           
+          
+            if($request->hasFile('fileimage'))
+            {
+                $file = $request->file('fileimage');
+                //ten file = time+tên file gốc
+                $image = time().$file->getClientOriginalName();  
+                $path = 'image/category/'; 
+                $file->move('image/category/', $image);   
+                $category->image = $path.$image;
+            }
+            else{
+                $category->image = "image/empty.jpg";
+            }
+            $category->save();
             session()->flash('success', 'Tạo Danh Mục Thành Công');
         }catch(\Exception $err){
             session()->flash('error', $err->getMessage());
@@ -93,20 +110,31 @@ class CategoryController extends Controller
         $this->validate($request,
         [
             'name'=> 'required',
+            'fileimage' => 'image|mimes:jpg,jpeg,png',        
         ],
         [
             'name.required' => 'Vui lòng nhập tên danh mục',
+            'fileimage.image' => 'Vui lòng chọn file là file ảnh',
+            'fileimage.mimes' => 'Vui lòng chọn file ảnh có đuôi png, jpg, jpeg',
         ]);
         try{
             $category->name = (string) $request->input('name');
             $category->description = (string) $request->input('description');
             $category->active = (int) $request->input('active');
+            if($request->hasFile('fileimage'))
+            {
+                $file = $request->file('fileimage');  
+                $image = time().$file->getClientOriginalName(); // tên file = time+ten file gốc
+                $path = 'image/category/';
+                unlink($category->image); //Xóa ảnh cũ
+                $file->move('image/category/', $image);
+                $category->image = $path.$image;
+            }
             $category->save();
             session()->flash('success', 'Cập nhật Danh Mục Thành Công');        
         }catch(\Exception $err){
             session()->flash('error', $err->getMessage());
         }
         return redirect('admin/category/list');
-
     }
 }

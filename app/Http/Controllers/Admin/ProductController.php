@@ -96,7 +96,7 @@ class ProductController extends Controller
             }
             else
             {
-                $product->image = "";
+                $product->image = "image/empty.jpg";
             }
             $product->save();
             session()->flash('success', 'Tạo sản phẩm Thành Công');

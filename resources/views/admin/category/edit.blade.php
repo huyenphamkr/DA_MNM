@@ -11,7 +11,7 @@
         <h3 class="card-title">{{$title}}</h3>
       </div>
 
-      <form action="" method="POST">
+      <form action="" method="POST" enctype="multipart/form-data">
           {{-- {{ url('/category/add') }} --}}
           <div class="card-body">
             <div class="form-group">
@@ -22,6 +22,14 @@
             <div class="form-group">
               <label for="category">Mô tả</label>
               <textarea type="text" name="description" id="category" class="form-control ckeditor" placeholder="Nhập mô tả danh mục">{{ $category->description }}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="imageProduct">Hình ảnh</label>
+              <p>
+                  <img src="{{asset($category->image)}}" alt="{{$category->name}}" style="width:300px">
+              </p>
+              <input type="file" name="fileimage" class="form-control" id="imageProduct">              
             </div>
 
             <div class="form-group clearfix">

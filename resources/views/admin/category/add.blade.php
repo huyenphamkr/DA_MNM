@@ -11,7 +11,7 @@
         <h3 class="card-title">{{$title}}</h3>
       </div>
 
-      <form action="" method="POST">
+      <form action="" method="POST"  enctype="multipart/form-data">
           {{-- {{ url('/category/add') }} --}}
           <div class="card-body">
             <div class="form-group">
@@ -23,7 +23,6 @@
               <label for="category">Mô tả</label>
               <textarea type="text" name="description" id="category" class="form-control ckeditor" placeholder="Nhập mô tả danh mục"></textarea>
             </div>
-
             
             <div class="form-group clearfix">
               <label>Kích hoạt </label>
@@ -31,10 +30,16 @@
                 <input type="radio" value="1" type="radio" id="active" name="active" checked="">
                 <label for="active">Có</label>
               </div>
+              
               <div class="icheck-danger">
                 <input type="radio"  value="0" type="radio" id="no_active" name="active">
                 <label for="no_active">Không</label>
               </div>
+            </div>
+
+             <div class="form-group">
+              <label for="imageProduct">Hình ảnh</label>
+              <input type="file" name="fileimage" class="form-control" id="imageProduct">
             </div>
           </div>
           <!-- /.card-body -->
