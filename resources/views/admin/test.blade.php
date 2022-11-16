@@ -7,6 +7,8 @@
     <title>Document</title>
 </head>
 <body>
+<h1>NTX Hoai</h1>
+<h1>Tran Thuy Ngan</h1>
     {{'hello'}}
     {{-- <script>console.table({{$orders}})</script> --}}
     @foreach ($orders as $order)
