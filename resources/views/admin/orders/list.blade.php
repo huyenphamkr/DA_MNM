@@ -34,7 +34,6 @@
             <th>Nhân viên</th>
             <th>Ngày lập</th>
             <th>Tổng tiền</th>
-            <th>Thanh toán</th>
             <th>Trạng thái</th>
             <th style="width:100px">Chức năng</th>
         </tr>
@@ -55,8 +54,6 @@
                   </td>
                   <td>{{ $orders->date }}</td>
                   <td>{{ number_format($orders->total, 0, ',', '.')}} VND</td>
-                  <td>{{ $orders->payment}}</td>
-
                 <td>
                   <select onchange="StatusChange({{$orders->id}})"
                     name="category" id="status" class="custom-select bg-primary" style="width:192px">               

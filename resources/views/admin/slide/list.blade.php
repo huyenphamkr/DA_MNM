@@ -40,9 +40,9 @@
                   <td> {{ $slide->link }}</td>
                   <td style="text-align: center">
                     @if ($slide->active == 0)
-                      <span class = "btn btn-danger btn-xs">NO</span>
+                      <span class = "btn btn-danger btn-xs">Không</span>
                     @else
-                      <span class = "btn btn-success btn-xs">YES</span>
+                      <span class = "btn btn-success btn-xs">Có</span>
                     @endif 
                   </td>
                   <td>{{ $slide->updated_at}}</td>  

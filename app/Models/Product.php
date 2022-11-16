@@ -44,5 +44,14 @@ class Product extends Model
         }
         return $query;
     }
+    public function scopeSearchIdName($query)
+    {
+        if($key = request()->key)
+        {
+            $query = $query->where('name', 'like', '%'.$key.'%')
+            ->orwhere('id', 'like', '%'.$key.'%');
+        }
+        return $query;
+    }
 }
 

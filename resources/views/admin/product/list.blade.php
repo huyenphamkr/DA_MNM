@@ -131,9 +131,9 @@
                   <td>{{ number_format($product->price, 0, ',', '.')}} VND</td>
                   <td style="text-align: center">
                     @if ($product->active == 0)
-                      <span class = "btn btn-danger btn-xs">NO</span>
+                      <span class = "btn btn-danger btn-xs">Không</span>
                     @else
-                      <span class = "btn btn-success btn-xs">YES</span>
+                      <span class = "btn btn-success btn-xs">Có</span>
                     @endif 
                   </td>
                   <td>{{ $product->updated_at}}</td>  

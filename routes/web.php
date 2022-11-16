@@ -102,19 +102,23 @@ Route::middleware(['auth'])->group(function(){
          Route::prefix('orders')->group(function (){
             //Hiển thị danh sách
             Route::get('list',[OrdersController::class,'index']);
-            //Thêm
+            //Thêm hóa đơn
             Route::get('add',[OrdersController::class,'create']);
+            Route::post('adddetail/{id}',[OrdersController::class,'adddetail']);
             Route::post('add',[OrdersController::class,'store']);
+            Route::post('add/load',[OrdersController::class,'getProducts']);    
             //Cập nhật
             Route::get('show/{id}',[OrdersController::class,'show']);
-            // Route::post('update',[OrdersController::class,'update']);
-            Route::post('update/{orderid}/{statusid}',[OrdersController::class,'update']);
-
+            Route::post('update/{ordersid}/{statusid}',[OrdersController::class,'update']);
             //Xóa
-            Route::get('destroy/{id}',[OrdersController::class,'destroy']);    
+            Route::get('destroy/{id}',[OrdersController::class,'destroy']);  
             //in  
-            Route::get('print/{id}',[OrdersController::class,'print']);                 
-        });
+            Route::get('print/{id}',[OrdersController::class,'print']);       
+            //lấy thông tin khách hàng qua id
+            Route::post('getinfo/{id}',[OrdersController::class,'getInfoID']);       
+            //tìm kiếm
+            Route::get('add/search',[OrdersController::class,'getProducts']);  
+    });
     });    
  });
 
