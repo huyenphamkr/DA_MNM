@@ -117,7 +117,7 @@ $.ajaxSetup({
 let detailOrder = new Array();
 let productadd = new Array();
 let listproduct = new Array();
-var ship = 30000;
+var ship = 0;
 loadTable();
 loadProduct();
 
@@ -342,6 +342,7 @@ function loadTable()
 function AddProductDetail(id)
 {
   // kiểm tra đầu vào của số lượng
+  ship = 30000;
   let check = true;
   let amount = 0;
   let amount_pro = 0;
@@ -432,46 +433,6 @@ function AddProductDetail(id)
       }
     }
   });
-  // for ($i = 0; $i < detailOrder.length; $i++) {
-  //  //kiểm tra thấy sản phẩm có đc thêm trước chưa
-  //   if (detailOrder[$i].id == id) 
-  //   { //id san pham đã đc thêm => trùng -> cập nhật số lượng
-  //     amount = Number(detailOrder[$i].amount) + Number(amount_pro );   
-  //     //kiểm tra số lượng sp
-  //     // if(amount > detailOrder[$i].amount)
-  //     // {
-  //     //   alert('Số lượng sản phẩm vượt quá số lượng sản phẩm có trong kho !');
-  //     //   return;
-  //     // }        
-  //     objIndex = detailOrder.findIndex((obj => obj.id == id));
-  //     console.log("Before update: ", detailOrder[objIndex])
-  //     detailOrder[objIndex].amount = amount;
-  //     loadTable();
-  //     return;
-  //   }   
-  // }
-
-  //thêm sản phẩm chi tiết
-  // $.ajax({
-  //   url: 'adddetail/'+ id ,
-  //   contentType: "application/json; charset=utf-8",
-  //   dataType: 'json',  
-  //   data: {id : id,},                
-  //   method: "POST",
-  //   success: function(result) {
-  //     productadd = result.product_add;
-  //     var newItem = {
-  //         id: productadd[0]['id'],
-  //         name: productadd[0]['name'],
-  //         amount: amount,
-  //         price: productadd[0]['price'],
-  //     };
-  //     detailOrder.push(newItem);
-  //     console.table(detailOrder);
-  //     alert("Thành công");
-  //     loadTable();
-  //   }
-  // });
 }
 
 //sửa sản phẩm bảng chi tiết
@@ -537,12 +498,8 @@ function AddOrder()
     },
     success: function(result){
       console.log(result);
-      if(parseInt(result) == 0){
-        alert('Thêm thành công '); 
-        location.reload();
-        return;
-    }
-    alert('Thêm thất bại !!!');
+        alert('Thêm thành công ');
+    // alert('Thêm thất bại !!!');
     }
   });
 }

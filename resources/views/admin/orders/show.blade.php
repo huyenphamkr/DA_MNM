@@ -1,11 +1,10 @@
 @extends('admin.main')
 @section('content')
 <div class="row">
-  <div class="col-4" >
+  <div class="col-12" >
     <!-- Main content -->
-    <div class="invoice p-3 mb-3" style="margin-top: 5px;text-align: center;">
-      <div class="row no-print">
-        <div class="col-12">
+      <div class="row no-print" style="margin: 10px 0px">
+        <div class="col-4">
           <a href="{{ url('admin/orders/list') }}">
             <button type="button"  class="btn btn-primary" ><i class="fas fa-arrow-left"></i> Trở về</button>
           </a>
@@ -16,11 +15,27 @@
           @foreach($orders as $order)
           <a href="{{ url('admin/orders/print/'.$order->id.'') }}"  id="print" rel="noopener" target="_blank">
             <button type="button" class="btn btn-primary"><i class="fas fa-print"></i> In</button>
-            @endforeach
           </a>
-        </div>
+        </div>       
       </div>
-    </div>
+  </div>
+</div>
+<div class="col-8">
+  <div class="input-group" style="margin: 10px 0px;">
+    <label style="width:150px; margin-top:5px">Trạng thái đơn hàng : </label>
+    <select id="status" name="status"  class="custom-select">
+     @foreach ($statuslist as $status)         
+       <option  value="{{$status->id}}"                    
+       @if ($order->status_id == $status->id)                    
+       {{"selected"}}
+       @endif                
+       >{{$status->name}}</option>            
+     @endforeach
+    </select>
+    <a rel="noopener" target="_blank">
+      <button onclick="StatusChange({{$order->id}})" style="width:150px; margin-left:10px" type="button" class="btn btn-primary"><i class="fas fa-save"></i> Cập nhật</button>
+    </a>
+    @endforeach
   </div>
 </div>
 
@@ -189,4 +204,40 @@
   });
 
 </script>
+<script>
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+  }
+});
+
+function StatusChange(id) {    
+  var x = document.getElementById("status").value; 
+ // alert("id: " + id +" - status : "+x);
+    $.ajax({
+      url: 'update/'+ id  + '/' + x,
+      contentType: "application/json; charset=utf-8",
+      dataType: 'json',  
+      data: {
+            orderID : id,
+            statusID : x,
+        },                
+      method: "POST",
+      success: function(result) {
+        console.log(result);
+        if(result.success)
+        {
+          alert(result.success); 
+        }
+        else
+        {
+          alert(result.error); 
+        }
+        location.reload();
+      },
+  });
+}
+</script>
 @endsection
+

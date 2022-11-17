@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    // Auth::logout();
+    Auth::logout();
     return view('welcome');
 });
 
@@ -101,7 +101,9 @@ Route::middleware(['auth'])->group(function(){
          //Hóa đơn Orders
          Route::prefix('orders')->group(function (){
             //Hiển thị danh sách
-            Route::get('list',[OrdersController::class,'index']);
+            Route::get('list',[OrdersController::class,'index'])->name('filter');
+            
+           // Route::post('list/{id}',[OrdersController::class,'filter']);
             //Thêm hóa đơn
             Route::get('add',[OrdersController::class,'create']);
             Route::post('adddetail/{id}',[OrdersController::class,'adddetail']);
@@ -109,7 +111,7 @@ Route::middleware(['auth'])->group(function(){
             Route::post('add/load',[OrdersController::class,'getProducts']);    
             //Cập nhật
             Route::get('show/{id}',[OrdersController::class,'show']);
-            Route::post('update/{ordersid}/{statusid}',[OrdersController::class,'update']);
+            Route::post('show/update/{ordersid}/{statusid}',[OrdersController::class,'update']);
             //Xóa
             Route::get('destroy/{id}',[OrdersController::class,'destroy']);  
             //in  
@@ -122,11 +124,14 @@ Route::middleware(['auth'])->group(function(){
     });    
  });
 
-// Route::get('test', [OrdersController::class,'test']);
-// Route::get('testa',function()
-// {
-//     $orders = Orders::find('1')->with('products')->first();
+Route::get('test', [OrdersController::class,'test']);
+// Route::get('test',function()
+// { $date = getdate();
+//     $orders = date("d/m/y G:i:s", time());
 //     print "<pre>";
-// print_r($orders);
+// print_r($date);
 // print "</pre>";
+// $timestamp = time();
+// echo($timestamp);
+// echo(date("F d, Y h:i:s", $timestamp));
 // });

@@ -8,20 +8,75 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Status;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
+    
     public function __construct()
     {
         date_default_timezone_set("Asia/Ho_Chi_Minh");
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $statuslist = Status::all();
-        $orderslist = Orders::orderByDesc('id')->paginate(5);
+        $statuslist = Status::all();  
+        $users = User::all();      
+        $query = Orders::query();
+        if($request->ajax()){
+            if(empty($request->show))
+            {
+                $orderslist = $query->Search()->paginate(10);
+            }
+            else{
+                $orderslist = $query->Search()->paginate($request->show);
+            }
+
+            if(!empty($request->sort))
+            {
+                if($request->sort == 1)
+                {
+                    if(empty($request->id))
+                    {
+                        $orderslist = $query->orderByDesc('id')->Search()->get();
+                    }
+                    else{
+                        $orderslist = $query->orderByDesc('id')->where(['status_id'=>$request->id])->Search()->get();
+                    }          
+                }
+                else
+                {
+                    if(empty($request->id))
+                    {
+                        $orderslist = $query->Search()->get();
+                    }
+                    else{
+                        $orderslist = $query->where(['status_id'=>$request->id])->Search()->get();
+                    }          
+                }
+            }
+            else
+            {
+                if(empty($request->id))
+                {
+                    $orderslist = $query->Search()->get();
+                }
+                else{
+                    $orderslist = $query->where(['status_id'=>$request->id])->Search()->get();
+                }          
+            }
+            // if(empty($request->id))
+            // {
+            //     $orderslist = $query->Search()->get();
+            // }
+            // else{
+            //     $orderslist = $query->where(['status_id'=>$request->id])->Search()->get();
+            // }          
+            return response()->json(['orderslist'=>$orderslist, 'statuslist'=>$statuslist,'users'=>$users]);
+        }
+        $orderslist = $query->Search()->paginate(10);
         return view('admin.orders.list',[
             'title'=>'Danh Sách Hóa Đơn',
             'orderslist'=>$orderslist,
@@ -29,27 +84,45 @@ class OrdersController extends Controller
         ]);
     }
 
+
     public function update($orderID, $statusID)
     {
-        if($statusID == 1)
+        $status_id_old = Orders::where('id',$orderID)->value('status_id');
+        if($statusID < $status_id_old )
+        {
+            return response()->json([
+                'error' => 'Cập nhật trạng thái thất bại'
+            ]);
+        }
+        if($statusID == 2)
         {
             $result = DB::table('orders')
-            ->where('id', $orderID)
-            ->update([
-              'status_id' => $statusID,
-              'employee_id'=>Auth::user()->role_id,
-          ]);
+                ->where('id', $orderID)
+                ->update([
+                'status_id' => $statusID,
+                'employee_id'=>Auth::user()->role_id,
+            ]);
+            $orders = Orders::find($orderID);
+            foreach ($orders->products as $product){ 
+                $id = $product->id;           
+                $quantity = $product->pivot->quantity;
+                $amountOld = Product::where('id',$id)->value('amount');
+                $amountNew = $amountOld - $quantity;
+                $updateProduct = DB::table('product')
+                    ->where('id', $id)
+                    ->update([
+                    'amount' => $amountNew,
+                ]);
+            }    
         }
         else
         {
             $result = DB::table('orders')
               ->where('id', $orderID)
               ->update(['status_id' => $statusID,]);
-        }       
-         
+        }         
         return response()->json([
-            'success' => 'Cập nhật trạng thái thành công',
-            'error' => 'Cập nhật trạng thái thất bại'
+            'success' => 'Cập nhật trạng thái thành công'
         ]);
     }
 
@@ -58,11 +131,13 @@ class OrdersController extends Controller
         $customers =  Orders::where('id','=',$id)->with('customer')->get();
         $employees = Orders::where('id','=',$id)->with('employee')->get();
         $orders = Orders::where('id','=',$id)->with('products')->get();
+        $statuslist = Status::all();
         return view('admin.orders.show',[
             'title'=>'Chi Tiết Hóa Đơn: #'.$id,
             'orders'=>$orders,
             'customers'=>$customers,
             'employees'=>$employees,
+            'statuslist' => $statuslist,
         ]);
     }
     public function print($id)
@@ -115,7 +190,7 @@ class OrdersController extends Controller
     
             }
             $total = $sum + $ship;
-            $date = date("Y-m-d");
+            $date = date("Y-m-d h:i:s");
             $order = new Orders();
             $order->user_id =  $customer_id;
             $order->employee_id = $employee_id;
@@ -141,7 +216,7 @@ class OrdersController extends Controller
              $check = false;
            // session()->flash('error', "Thêm hóa đơn thất bại ! ");
         }
-    return redirect('admin/orders/add');
+        return redirect('admin/orders/add');
     }
 
     public function getInfoID($id)
@@ -161,4 +236,5 @@ class OrdersController extends Controller
                 'categories' => $categories,
         ]);
     }
+    
 }
