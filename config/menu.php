@@ -72,11 +72,11 @@ return [
         'items' => [
             [
                 'label' => 'Danh Sách Phiếu Nhập',
-                'route' => 'admin/purchases/list',
+                'route' => 'admin/purchase/list',
             ],
             [
                 'label' => 'Thêm Phiếu Nhập',
-                'route' => 'admin/purchases/add',
+                'route' => 'admin/purchase/add',
             ]
         ]
     ],

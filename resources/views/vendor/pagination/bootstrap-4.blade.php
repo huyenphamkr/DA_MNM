@@ -42,5 +42,17 @@
                 </li>
             @endif
         </ul>
+        <div>
+            <p class="small text-muted">
+                {!! __('Hiển thị') !!}
+                <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
+                {!! __('đến') !!}
+                <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
+                {!! __('trong số') !!}
+                <span class="fw-semibold">{{ $paginator->total() }}</span>
+                {!! __('kết quả') !!}
+            </p>
+        </div>
     </nav>
+    
 @endif

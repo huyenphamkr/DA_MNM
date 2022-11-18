@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SlideController;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -99,11 +100,9 @@ Route::middleware(['auth'])->group(function(){
         });
 
          //Hóa đơn Orders
-         Route::prefix('orders')->group(function (){
+        Route::prefix('orders')->group(function (){
             //Hiển thị danh sách
             Route::get('list',[OrdersController::class,'index'])->name('filter');
-            
-           // Route::post('list/{id}',[OrdersController::class,'filter']);
             //Thêm hóa đơn
             Route::get('add',[OrdersController::class,'create']);
             Route::post('adddetail/{id}',[OrdersController::class,'adddetail']);
@@ -120,18 +119,28 @@ Route::middleware(['auth'])->group(function(){
             Route::post('getinfo/{id}',[OrdersController::class,'getInfoID']);       
             //tìm kiếm
             Route::get('add/search',[OrdersController::class,'getProducts']);  
-    });
-    });    
- });
+        });
 
-Route::get('test', [OrdersController::class,'test']);
+        //phiếu nhập
+        Route::prefix('purchase')->group(function (){
+            //Hiển thị danh sách
+            Route::get('list',[PurchaseController::class,'index']);
+            //Xem chi tiết
+            Route::get('show/{id}',[PurchaseController::class,'show']);
+            //in  
+            Route::get('print/{id}',[PurchaseController::class,'print']);     
+            //Thêm
+            Route::get('add',[PurchaseController::class,'create']);
+            Route::post('add',[PurchaseController::class,'store']);      
+            Route::post('add/load',[PurchaseController::class,'getProducts']);             
+            Route::post('detail/{id}',[PurchaseController::class,'add']);
+            //tìm kiếm
+            Route::get('add/search',[PurchaseController::class,'getProducts']);              
+        });    
+    });
+});
+//Route::get('test', [PurchaseController::class,'test']);
 // Route::get('test',function()
-// { $date = getdate();
-//     $orders = date("d/m/y G:i:s", time());
-//     print "<pre>";
-// print_r($date);
-// print "</pre>";
-// $timestamp = time();
-// echo($timestamp);
-// echo(date("F d, Y h:i:s", $timestamp));
+// { 
+//     return view('admin.purchase.test');
 // });

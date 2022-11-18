@@ -102,6 +102,7 @@ class OrdersController extends Controller
                 'status_id' => $statusID,
                 'employee_id'=>Auth::user()->role_id,
             ]);
+            
             $orders = Orders::find($orderID);
             foreach ($orders->products as $product){ 
                 $id = $product->id;           

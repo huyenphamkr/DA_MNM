@@ -23,4 +23,13 @@ class Purchases extends Model
         return $this->belongsTo('App\Models\User','user_id', 'id');
     }
 
+    public function scopeSearch($query)
+    {
+        if($key = request()->key)
+        {
+            $query = $query->where('id', 'like', '%'.$key.'%');
+        }
+        return $query;
+    }
+
 }

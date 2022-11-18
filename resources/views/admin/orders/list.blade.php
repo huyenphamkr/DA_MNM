@@ -108,7 +108,7 @@
                     <a class="btn btn-primary btn-sm" href="{{ url('admin/orders/show/'.$orders->id.'') }}">
                       <i class="fas fa-eye"></i>
                     </a>
-                    <a class="btn btn-primary btn-sm"  href="{{ url('admin/orders/print/'.$orders->id.'') }}" style="background-color: green; border-color: green;">
+                    <a class="btn btn-primary btn-sm" target="_blank"  href="{{ url('admin/orders/print/'.$orders->id.'') }}" style="background-color: green; border-color: green;">
                       <i class="fas fa-print"></i>
                     </a>
                   </td>
@@ -118,7 +118,7 @@
       </table>
       {{-- Phân trang --}}
 
-      {!! $orderslist->appends(request()->all())->links('vendor.pagination.bootstrap-5') !!}
+      {!! $orderslist->appends(request()->all())->links('vendor.pagination.default') !!}
     </div>
   </div>
 <!--/.col (left) -->
@@ -187,7 +187,7 @@ $(document).ready(function() {
             <a class="btn btn-primary btn-sm" href="show/'+ orders[i]['id'] +'">\
               <i class="fas fa-eye"></i>\
             </a>\
-            <a class="btn btn-primary btn-sm"  href="print/'+ orders[i]['id'] +'" style="background-color: green; border-color: green;">\
+            <a class="btn btn-primary btn-sm" target="_blank" href="print/'+ orders[i]['id'] +'" style="background-color: green; border-color: green;">\
               <i class="fas fa-print"></i>\
             </a>\
           </td>\

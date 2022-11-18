@@ -83,11 +83,8 @@
                 </div>
 
                 <div class="col-12">
-                  {{-- @foreach($orders as $order) --}}
                   <div class="table-responsive">
-                    <table class="table" id="sumdata">
-                      
-                  </table>
+                    <table class="table" id="sumdata"></table>
                   </div>
                 </div>
                 
@@ -100,7 +97,6 @@
     </div>
   </div>
 <!--/.col (left) -->
-
 </div>
 <!-- /.row -->
 @endsection
