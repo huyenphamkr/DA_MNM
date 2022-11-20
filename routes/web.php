@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,8 @@ Route::get('/', function () {
     Auth::logout();
     return view('welcome');
 });
+
+
 
 
 /*
@@ -42,6 +46,10 @@ Route::post('admin/postlogin', [HomeController::class, 'postLogin'])->name('post
 
 //logout
 Route::post('admin/logout', [HomeController::class, 'getLogout'])->name('logout');
+
+// Đăng ký thành viên
+Route::get('admin/register', [HomeController::class, 'getRegister'])->name('register');
+Route::post('admin/postregister', [HomeController::class, 'postRegister'])->name('postregister');
 
 //reset password
 Route::get('admin/forget-password', [HomeController::class, 'getForgetPass'])->name('ForgetPass');
@@ -137,6 +145,34 @@ Route::middleware(['auth'])->group(function(){
             //tìm kiếm
             Route::get('add/search',[PurchaseController::class,'getProducts']);              
         });    
+
+        //User
+        Route::prefix('account')->group(function (){
+            //Hiển thị danh sách
+            Route::get('list',[UserController::class,'index']);
+            // //Thêm
+            Route::get('add',[UserController::class,'create']);
+            Route::post('add',[UserController::class,'store']);
+            // //Cập nhật
+             Route::get('edit/{id}',[UserController::class,'edit']);
+             Route::post('edit/{id}',[UserController::class,'update']);
+            // //Xóa
+            // Route::get('destroy/{id}',[UserController::class,'destroy']);                  
+        });
+
+        //Nhà cung cấp- Supplier
+         Route::prefix('supplier')->group(function (){
+            //Thêm
+            Route::get('add',[SupplierController::class,'create']);
+            Route::post('add',[SupplierController::class,'store']);
+            //Hiển thị danh sách
+            Route::get('list',[SupplierController::class,'index']);
+            //Xóa
+            Route::get('destroy/{id}',[SupplierController::class,'destroy']);
+            //Cập nhật
+            Route::get('edit/{id}',[SupplierController::class,'edit']);
+            Route::post('edit/{id}',[SupplierController::class,'update']);        
+        });
     });
 });
 //Route::get('test', [PurchaseController::class,'test']);

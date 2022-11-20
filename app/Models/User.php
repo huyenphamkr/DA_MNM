@@ -21,6 +21,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'address',
+        'phone_number',
+        'active',
+        'role_id',
+        'gender',
+
     ];
 
     /**
@@ -41,7 +47,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    protected $table = 'users';
     public function role(){
         return $this->belongsTo('App\Models\Role','role_id', 'id');
     }
@@ -54,5 +60,13 @@ class User extends Authenticatable
     }
     public function purchases(){
         return $this->hasMany('App\Models\Purchases','user_id', 'id');
+    }
+    public function scopeSearch($query)
+    {
+        if($key = request()->key)
+        {
+            $query = $query->where('id', 'like', '%'.$key.'%');
+        }
+        return $query;
     }
 }

@@ -82,16 +82,31 @@ return [
     ],
     [
         'label' => 'Quản Lý Người Dùng',
-        'route' => 'admin/user/list',
+        'route' => 'admin/account/list',
         'icon' => 'fa-user',
         'items' => [
             [
-                'label' => 'Danh Sách Phiếu Nhập',
-                'route' => 'admin/user/list',
+                'label' => 'Danh Sách Người Dùng',
+                'route' => 'admin/account/list',
             ],
             [
-                'label' => 'Thêm Phiếu Nhập',
-                'route' => 'admin/user/add',
+                'label' => 'Thêm Người Dùng',
+                'route' => 'admin/account/add',
+            ]
+        ]
+    ],
+    [
+        'label' => 'Quản Lý Nhà Cung Cấp',
+        'route' => 'admin/supplier/list',
+        'icon' => 'fa-user',
+        'items' => [
+            [
+                'label' => 'Danh Sách Nhà Cung Cấp',
+                'route' => 'admin/supplier/list',
+            ],
+            [
+                'label' => 'Thêm Nhà Cung Cấp',
+                'route' => 'admin/supplier/add',
             ]
         ]
     ],

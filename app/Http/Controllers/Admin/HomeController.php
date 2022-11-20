@@ -195,4 +195,64 @@ class HomeController extends Controller
         }     
         
     }
+
+    public function getRegister(){
+        return view('admin.users.register');
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['password' => 'required_with:password_confirmation|same:password_confirmation','min:8',],
+            'phone_number'=>['required', 'min:10'],
+            'address '=> ['required'],
+        ],
+        [
+			'name.required' => 'Họ và tên là trường bắt buộc',
+			'name.max' => 'Họ và tên không quá 255 ký tự',
+			'email.required' => 'Email là trường bắt buộc',
+			'email.email' => 'Email không đúng định dạng',
+			'email.max' => 'Email không quá 255 ký tự',
+			'email.unique' => 'Email đã tồn tại',
+            'password.required_with' => 'Vui lòng nhập password',     
+            'password.min' => 'Mật khẩu phải chứa ít nhất 8 ký tự',
+            'password.same' => 'Mật khẩu không chính xác',
+            'phone_number.min' => 'Số điện thoại không đúng'
+		]);
+    }
+
+    public function postRegister(Request $request)
+    {
+        // Kiểm tra dữ liệu vào
+        $allRequest  = $request->all();	
+        $validator = $this->validator($allRequest);
+     
+        if ($validator->fails()) {
+            // Dữ liệu vào không thỏa điều kiện sẽ thông báo lỗi
+            return redirect('admin/register')->withErrors($validator)->withInput();
+        } else {   
+            // Dữ liệu vào hợp lệ sẽ thực hiện tạo người dùng dưới csdl
+            $result = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role_id' => 2,
+                'password' => bcrypt($request->password),
+                'address'=> $request->address,
+                'phone_number'=> $request->phone_number,
+                'gender'=> $request->gender,
+                'active'=>1,
+            ]);
+            if( $result) {
+                // Insert thành công sẽ hiển thị thông báo
+                session()->flash('success', 'Đăng ký thành viên thành công!');
+                return redirect('admin/login');
+            } else {
+                // Insert thất bại sẽ hiển thị thông báo lỗi
+                session()->flash('error', 'Đăng ký thành viên thất bại!');
+                return redirect('admin/register');
+            }
+        }
+    }
 }

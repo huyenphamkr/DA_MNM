@@ -13,6 +13,17 @@ class ProductController extends Controller
     {
         date_default_timezone_set("Asia/Ho_Chi_Minh");
     }
+    // public function api($id = null)
+    // {
+    //     if($id == null)
+    //     {
+    //         return  Product::orderByDesc('id')->get();
+    //     }
+    //     else
+    //     {
+    //         return  Product::find($id);
+    //     }
+    // }
     
     /**
      * Display a listing of the resource.

@@ -111,7 +111,7 @@
             <th>Số lượng</th>
             <th>Giá</th>
             <th>Kích hoạt</th>
-            <th>Cập nhật</th>
+            {{-- <th>Cập nhật</th> --}}
             <th style="width:100px">Chức năng</th>
         </tr>
         </thead>
@@ -136,7 +136,7 @@
                       <span class = "btn btn-success btn-xs">Có</span>
                     @endif 
                   </td>
-                  <td>{{ $product->updated_at}}</td>  
+                  {{-- <td>{{ $product->updated_at}}</td>   --}}
                   <td style="text-align: center">
                     <a class="btn btn-primary btn-sm" href="{{ url('admin/product/edit/'.$product->id.'') }}">
                       <i class="fas fa-edit"></i>

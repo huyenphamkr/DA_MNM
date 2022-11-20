@@ -81,8 +81,9 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-
-        @include('admin.alert')        
+        <br>    
+        @include('admin.alert')    
+      
 
         @yield('content')
 

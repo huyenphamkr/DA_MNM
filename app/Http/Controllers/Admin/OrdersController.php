@@ -94,6 +94,37 @@ class OrdersController extends Controller
                 'error' => 'Cập nhật trạng thái thất bại'
             ]);
         }
+        if($status_id_old == 5)
+        {
+            if($statusID == 6)
+            {
+                return response()->json([
+                    'error' => 'Cập nhật trạng thái thất bại. Do đơn hàng đã được giao thành công'
+                ]);
+            }
+        }
+        if($statusID == 6)
+        {
+            $result = DB::table('orders')
+                ->where('id', $orderID)
+                ->update([
+                'status_id' => $statusID,
+                'employee_id'=>Auth::user()->role_id,
+            ]);
+            
+            $orders = Orders::find($orderID);
+            foreach ($orders->products as $product){ 
+                $id = $product->id;           
+                $quantity = $product->pivot->quantity;
+                $amountOld = Product::where('id',$id)->value('amount');
+                $amountNew = $amountOld + $quantity;
+                $updateProduct = DB::table('product')
+                    ->where('id', $id)
+                    ->update([
+                    'amount' => $amountNew,
+                ]);
+            }    
+        }
         if($statusID == 2)
         {
             $result = DB::table('orders')

@@ -47,7 +47,7 @@
                   </td>
                   <td>{{ $slide->updated_at}}</td>  
                   <td style="text-align: center">
-                    <a style="margin-bottom:5px" class="btn btn-primary btn-xs" href="{{ url('admin/slide/edit/'.$slide->id.'') }}">
+                    <a class="btn btn-primary btn-xs" href="{{ url('admin/slide/edit/'.$slide->id.'') }}">
                       <i class="fas fa-edit"></i>
                     </a>
                     <a class="btn btn-danger btn-xs" href="{{ url('admin/slide/destroy/'.$slide->id.'') }}">
