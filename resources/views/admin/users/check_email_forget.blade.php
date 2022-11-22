@@ -27,17 +27,17 @@
                                 <tr>
                                     <td style="padding:0 35px;">
                                         <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">
-                                            Hi {{$user->name}}! You have requested to reset your password
+                                            Chào {{$user->name}}! Bạn đã yêu cầu đặt lại mật khẩu của mình
                                         </h1>
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                         <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                            We cannot simply send you your old password. A unique link to reset your
-                                            password has been generated for you. To reset your password, click the
-                                            following link and follow the instructions.
+                                            Chúng tôi không thể chỉ gửi cho bạn mật khẩu cũ của bạn.
+                                            Một liên kết duy nhất để đặt lại mật khẩu của bạn đã được tạo cho bạn.
+                                            Để đặt lại mật khẩu của bạn, hãy nhấp vào liên kết sau và làm theo hướng dẫn.
                                         </p>
                                         <a href="{{Route('getPass',['user'=> $user->id, 'token'=>$token])}}"
-                                            style="background:#20e277;text-decoration:none !important; font-weight:300; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:5px;">Reset Password</a>
+                                            style="background:#20e277;text-decoration:none !important; font-weight:300; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:5px;">Đặt lại mật khẩu</a>
                                     </td>
                                 </tr>
                                 <tr>

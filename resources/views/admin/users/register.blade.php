@@ -8,6 +8,17 @@
                 <div class="card-header">{{ __('Đăng Ký') }}</div>
 
                 <div class="card-body">
+                    {{-- @if ($message =  Session::get('success'))
+                        <div class="alert alert-success">
+                            {{ $message }}
+                        </div>
+                    @endif
+                    @if ($message =  Session::get('error'))
+                        <div class="alert alert-danger">
+                            {{ $message }}
+                        </div>
+                    @endif --}}
+                    @include('admin.alert')
                     <form method="POST" action="{{ route('postregister') }}">
                         @csrf
 
@@ -68,7 +79,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">

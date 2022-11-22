@@ -82,9 +82,15 @@ class HomeController extends Controller
             // Nếu dữ liệu hợp lệ sẽ kiểm tra trong csdl
             $email = $request->input('email');
             $password = $request->input('password');
+            $user = User::where('email', $request->email)->first(); 
      
             if( Auth::attempt(['email' => $email, 'password' =>$password])) {
-                
+                if($user->active == 0)
+                {
+                    Auth::logout();
+                    return back()
+                    ->with('error','Tài khoản của bạn chưa được kích hoạt, vui lòng click vào <a href="'.route('admin.getActived').'">đây để tiến hành kích hoạt</a>');
+                }
                 // Kiểm tra đúng email và mật khẩu sẽ chuyển trang
                 return redirect('admin/home');
             } else {
@@ -92,6 +98,46 @@ class HomeController extends Controller
                 session()->flash('error', 'Email hoặc mật khẩu không đúng!');
                 return redirect('admin/login');
             }
+        }
+    }
+    
+    public function getActived()
+    {
+        return view('admin.users.getActived');
+    }
+
+    protected function validatorReset(array $data)
+    {
+        return Validator::make($data, [
+            'email' => 'required|email|exists:users',
+        ],
+        [
+            'email.required' => 'Vui lòng nhập email',            
+            'email.email' => 'Vui lòng nhập email',
+            'email.exists' => 'Email không tồn tại trong hệ thống',
+            
+        ]);
+    }
+    public function postActived(Request $request)
+    {
+        // Kiểm tra dữ liệu vào
+        $allRequest  = $request->all();	
+        $validator = $this->validatorReset($allRequest);
+     
+        if ($validator->fails()) {
+             // Dữ liệu vào không thỏa điều kiện sẽ thông báo lỗi
+            return redirect('admin/get-actived')->withErrors($validator)->withInput();
+        } 
+        else 
+        {  
+            $token = Str::random(20);
+            $user = User::where('email', $request->email)->first(); 
+            $user->update(['token'=> $token]);
+            Mail::send('admin.users.check_email_active_account',compact('user', 'token'), function($email) use($user){
+                $email->subject('Xác nhận tài khoản');
+                $email->to($user->email, $user->name);       
+            });
+            return redirect()->back()->with('success', 'Chúng tôi đã gửi một liên kết đặt lại mật khẩu đến email của bạn!');
         }
     }
 
@@ -110,55 +156,32 @@ class HomeController extends Controller
 
     public function postForgetPass(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email|exists:users',
-        ],
-        [
-            'email.required' => 'Vui lòng nhập email',            
-            'email.email' => 'Vui lòng nhập email',
-            'email.exists' => 'Email không tồn tại trong hệ thống',
-            
-        ]);
-        $token = Str::random(40);
-        $user = User::where('email', $request->email)->first();
-        // $user -> update(['token' => $token])
-        // DB::table('password_resets')->insert([
-        //     'email'=>$request->email,
-        //     'token'=>$token,
-        //     'created_at'=>Carbon::now(),
-        // ]);
-
-        if(DB::table('password_resets')->where(['email'=>$user->email])->first())
-        {
-            DB::table('password_resets')->update([
-                'email'=>$request->email,
-                'token'=>$token,
-                'created_at'=>Carbon::now(),
-            ]);
+         // Kiểm tra dữ liệu vào
+        $allRequest  = $request->all();	
+        $validator = $this->validatorReset($allRequest);
+     
+        if ($validator->fails()) {
+             // Dữ liệu vào không thỏa điều kiện sẽ thông báo lỗi
+            return redirect('account/forget')->withErrors($validator)->withInput();
+        } 
+        else 
+        {  
+            $token = Str::random(20);
+            $user = User::where('email', $request->email)->first(); 
+            $user->update(['token'=> $token]);
+            Mail::send('admin.users.check_email_forget',compact('user', 'token'), function($email) use($user){
+                $email->subject('Đặt lại mật khẩu');
+                $email->to($user->email, $user->name);       
+            });
+            return redirect()->back()->with('success', 'Chúng tôi đã gửi một liên kết đặt lại mật khẩu đến email của bạn!');
         }
-        else
-        {
-            DB::table('password_resets')->insert([
-                'email'=>$request->email,
-                'token'=>$token,
-                'created_at'=>Carbon::now(),
-            ]);
-        }
-       
-        //Gửi mail
-        Mail::send('admin.users.check_email_forget',compact('user', 'token'), function($email) use($user){
-            $email->subject('Reset Password');
-            $email->to($user->email, $user->name);       
-        });
-        return redirect()->back()->with('success', 'We have e-mailed your password reset link');
     }
 
     // Đặt lại mật khẩu
     public function getPass(User $user, $token)
     {
         try{
-            $check = DB::table('password_resets')->where(['email'=>$user->email,])->first();
-            if ($check->token === $token) {
+             if ($user->token === $token) {
                 return view('admin.users.getPass',[
                     'token' => $token,
                 ]);
@@ -181,14 +204,8 @@ class HomeController extends Controller
         try
         {
             $pass = bcrypt($request->password);
-            $user->update(['password' => $pass]);
-    
-            DB::table('password_resets')->where(['email'=>$user->email, 'token' => $request->token])->delete();
-            // DB::table('password_resets')->delete() update([
-            //     'token'=>null,
-            //     'created_at'=>Carbon::now(),
-            // ]);
-            return redirect()->route('login')->with('success', 'Your password has been changed! You can login with new password');
+            $user->update(['password' => $pass, 'token' => null]);
+            return redirect()->route('login')->with('success', 'Mật khẩu của bạn đã được thay đổi! Bạn có thể đăng nhập bằng mật khẩu mới');
         }catch(\Exception $err){
             return redirect()->back()->width('error',$err->getMessage());
             session()->flash('error', $err->getMessage());
@@ -203,11 +220,10 @@ class HomeController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['password' => 'required_with:password_confirmation|same:password_confirmation','min:8',],
+            'name' =>['required', 'string', 'max:255'],
+            'email' =>['required','string', 'email', 'max:255', 'unique:users'],
+            'password' =>['password' => 'required_with:password_confirmation|same:password_confirmation','min:8'],
             'phone_number'=>['required', 'min:10'],
-            'address '=> ['required'],
         ],
         [
 			'name.required' => 'Họ và tên là trường bắt buộc',
@@ -219,7 +235,7 @@ class HomeController extends Controller
             'password.required_with' => 'Vui lòng nhập password',     
             'password.min' => 'Mật khẩu phải chứa ít nhất 8 ký tự',
             'password.same' => 'Mật khẩu không chính xác',
-            'phone_number.min' => 'Số điện thoại không đúng'
+            'phone_number.min' => 'Số điện thoại không đúng',
 		]);
     }
 
@@ -228,13 +244,14 @@ class HomeController extends Controller
         // Kiểm tra dữ liệu vào
         $allRequest  = $request->all();	
         $validator = $this->validator($allRequest);
-     
+
         if ($validator->fails()) {
             // Dữ liệu vào không thỏa điều kiện sẽ thông báo lỗi
             return redirect('admin/register')->withErrors($validator)->withInput();
         } else {   
-            // Dữ liệu vào hợp lệ sẽ thực hiện tạo người dùng dưới csdl
-            $result = User::create([
+            //Dữ liệu vào hợp lệ sẽ thực hiện tạo người dùng dưới csdl
+            $token = Str::random(20);   
+            $data = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'role_id' => 2,
@@ -242,17 +259,38 @@ class HomeController extends Controller
                 'address'=> $request->address,
                 'phone_number'=> $request->phone_number,
                 'gender'=> $request->gender,
-                'active'=>1,
-            ]);
-            if( $result) {
+                'active'=>0,
+                'token' => $token
+            ];
+            if( $user = User::create($data)) {
+                // Gửi mail kích hoạt
+                Mail::send('admin.users.check_email_register',compact('user', 'token'), function($email) use($user){
+                    $email->subject('Xác nhận tài khoản');
+                    $email->to($user->email, $user->name);       
+                });
                 // Insert thành công sẽ hiển thị thông báo
-                session()->flash('success', 'Đăng ký thành viên thành công!');
-                return redirect('admin/login');
+                session()->flash('success', 'Đăng ký tài khoản thành công, vui lòng xác nhận tài khoản qua email của bạn!');
+                return redirect('admin/register');
             } else {
                 // Insert thất bại sẽ hiển thị thông báo lỗi
                 session()->flash('error', 'Đăng ký thành viên thất bại!');
                 return redirect('admin/register');
-            }
+           }
         }
     }
+    public function actived(User $user, $token)
+    {
+        if($user->token === $token)
+        {
+            $user->update(['active'=>1, 'token'=>null]);
+            session()->flash('success', 'Xác nhận tài khoản thành công. Bạn có thể đăng nhập!');
+            return redirect('admin/login');
+        }
+        else
+        {
+            session()->flash('error', 'Mã xác nhận không hợp lệ');
+            return redirect('admin/login');
+        }
+    }
+
 }

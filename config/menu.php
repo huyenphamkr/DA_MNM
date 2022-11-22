@@ -98,7 +98,7 @@ return [
     [
         'label' => 'Quản Lý Nhà Cung Cấp',
         'route' => 'admin/supplier/list',
-        'icon' => 'fa-user',
+        'icon' => 'fa-truck',
         'items' => [
             [
                 'label' => 'Danh Sách Nhà Cung Cấp',
@@ -112,9 +112,18 @@ return [
     ],
     [
         'label' => 'Thống Kê',
-        'route' => 'admin/',
+        'route' => 'admin/statistic/list',
         'icon' => 'fa-chart-bar',
-        
+        'items' => [
+            [
+                'label' => 'Thống kê doanh thu',
+                'route' => 'admin/statistic/list',
+            ],
+            [
+                'label' => 'Thêm Nhà Cung Cấp',
+                'route' => 'admin/supplier/add',
+            ]
+        ] 
     ],
 ]
 ?>

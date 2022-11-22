@@ -7,9 +7,16 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\Admin\SlideController;
+use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Auth;
+
+
+use App\Http\Controllers\Front\AccountController;
+use App\Http\Controllers\Front\IndexController;
+use App\Http\Controllers\Front\ShopController;
+use App\Http\Controllers\Front\CartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,12 +28,50 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    Auth::logout();
-    return view('welcome');
+// Route::get('/', function () {
+//     Auth::logout();
+//     return view('welcome');
+// });
+
+//front end
+
+// index
+Route::get('/', [IndexController::class, 'index'])->name('index');
+
+
+// product
+Route::prefix('shop')->group(function() {
+    // Product Detail
+    Route::get('product/{id}',[ShopController::class,'show']);
+    // product
+    Route::get('/', [ShopController::class,'index'])->name('shop');
+    // product category
+    Route::get('category/{categoryName}', [ShopController::class,'category']);
+    
 });
 
+// ShoppingCart
+Route::prefix('cart')->group(function() {
+    Route::get('add', [CartController::class,'add']);
+    Route::get('/', [CartController::class,'index'])->name('cart');
+    Route::get('delete', [CartController::class,'delete']);
+});
 
+// login
+Route::prefix('account')->group(function(){
+    Route::get('login',[AccountController::class,'login']);
+    Route::post('login',[AccountController::class,'checkLogin']);
+    Route::get('logout',[AccountController::class,'logout']);
+    Route::get('register',[AccountController::class,'register']);
+    Route::post('register',[AccountController::class,'checkRegister']);
+    Route::get('get-actived',[AccountController::class,'getActived'])->name('account.getActived');
+    Route::post('get-actived',[AccountController::class,'postActived']);
+    Route::get('actived/{user}/{token}',[AccountController::class,'actived'])->name('account.actived');
+    Route::get('forget',[AccountController::class,'forget']);
+    Route::post('forget',[AccountController::class,'postForget']);
+    Route::get('reset/{user}/{token}',[AccountController::class,'reset'])->name('reset');
+    Route::post('reset/{user}/{token}',[AccountController::class,'postReset']);   
+});
 
 
 /*
@@ -43,6 +88,9 @@ DELETE => destroy => khi xóa
 //login
 Route::get('admin/login', [HomeController::class, 'getLogin'])->name('login');
 Route::post('admin/postlogin', [HomeController::class, 'postLogin'])->name('postlogin');
+//xác thực tài khoản
+Route::get('admin/get-actived',[HomeController::class,'getActived'])->name('admin.getActived');
+Route::post('admin/get-actived',[HomeController::class,'postActived']);
 
 //logout
 Route::post('admin/logout', [HomeController::class, 'getLogout'])->name('logout');
@@ -50,6 +98,10 @@ Route::post('admin/logout', [HomeController::class, 'getLogout'])->name('logout'
 // Đăng ký thành viên
 Route::get('admin/register', [HomeController::class, 'getRegister'])->name('register');
 Route::post('admin/postregister', [HomeController::class, 'postRegister'])->name('postregister');
+Route::get('admin/actived/{user}/{token}',[HomeController::class,'actived'])->name('admin.actived');
+
+
+//Route::post('admin/register', [HomeController::class, 'checkRegister'])->name('checkregister');
 
 //reset password
 Route::get('admin/forget-password', [HomeController::class, 'getForgetPass'])->name('ForgetPass');
@@ -161,7 +213,7 @@ Route::middleware(['auth'])->group(function(){
         });
 
         //Nhà cung cấp- Supplier
-         Route::prefix('supplier')->group(function (){
+        Route::prefix('supplier')->group(function (){
             //Thêm
             Route::get('add',[SupplierController::class,'create']);
             Route::post('add',[SupplierController::class,'store']);
@@ -173,10 +225,30 @@ Route::middleware(['auth'])->group(function(){
             Route::get('edit/{id}',[SupplierController::class,'edit']);
             Route::post('edit/{id}',[SupplierController::class,'update']);        
         });
+
+         //Thống kê
+         Route::prefix('statistic')->group(function (){
+             //Hiển thị danh sách
+             Route::get('index',[StatisticController::class,'index']);
+            //Hiển thị danh sách
+            Route::get('sales',[StatisticController::class,'index']);
+            //Thêm
+            Route::get('add',[StatisticController::class,'create']);
+            Route::post('add',[StatisticController::class,'store']);
+            //Cập nhật
+            Route::get('edit/{id}',[StatisticController::class,'edit']);
+            Route::post('edit/{id}',[StatisticController::class,'update']);
+            //Xóa
+            Route::get('destroy/{id}',[StatisticController::class,'destroy']);                  
+        });
+
+        
     });
 });
+use Illuminate\Support\Str;
 //Route::get('test', [PurchaseController::class,'test']);
-// Route::get('test',function()
-// { 
-//     return view('admin.purchase.test');
-// });
+Route::get('test',function()
+{ 
+    $token = Str::random(20);   
+    echo $token;  
+});

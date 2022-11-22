@@ -16,7 +16,7 @@ $(function () {
   var salesChart = new Chart($salesChart, {
     type: 'bar',
     data: {
-      labels: ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      labels: ['1', '2', '3', '4', '5', '6', '7'],
       datasets: [
         {
           backgroundColor: '#007bff',
