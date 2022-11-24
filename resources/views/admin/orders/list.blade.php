@@ -18,8 +18,8 @@
     <div class="input-group" style="margin: 10px 0px;">
       <label style="width:70px; margin-top:5px">Sắp xếp: </label>
       <select onchange="SortChange()" id="sort" name="sort"  class="custom-select">
-         <option value="0" >Tăng</option>  
-         <option value="1" >Giảm</option>  
+        <option value="1" >Giảm</option>  
+        <option value="0" >Tăng</option>   
       </select>
     </div>
   </div>
@@ -88,7 +88,7 @@
                   <td style="text-align: left">{{ $orders->customer->name }}</td>
                   <td style="text-align: left">
                     @if ($orders->employee_id == null)
-                        {{""}}
+                       {{" "}}
                     @else
                       {{ $orders->employee->name }}
                     @endif                    

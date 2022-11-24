@@ -71,12 +71,12 @@
         </div>
 
         <div class="container">
-            <div class="inner-header">
+            <div class="inner-header" style="padding: 0">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 ">
                         <div class="logo">
                             <a href="{{route('index')}}">
-                                <img src="{{asset('front\img\furniture-logo-cricle.png')}}" height="150" width="170" alt="">
+                                <img src="{{asset('front\img\furniture-logo-cricle.png')}}" height="120" width="170" alt="">
                             </a>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                     <div class="col-lg-2 col-md-2 text-right" style="text-align:center">
                         <ul class="nav-right" style="padding: 45px 0">
                             <li class="cart-icon">
-                                <a href="{{url('cart/')}}">
+                                <a href="{{route('cart')}}">
                                     <i class="icon_bag_alt"></i>
                                     <span class="cart-count">{{Cart::count()}}</span>
                                 </a>
@@ -107,12 +107,13 @@
                                                         <td class="si-pic"> <img src="{{asset($cart->options->images)}}" style="height: 70px"> </td>
                                                         <td class="si-text">
                                                             <div class="product-selected">
-                                                                <p>{{$cart->price}} VND x {{$cart->qty}} </p>
+                                                                <p>{{number_format($cart->price, 0, ',', '.')}} VND x {{$cart->qty}} </p>
                                                                 <h6>{{$cart->name}}</h6>
                                                             </div>
                                                         </td>
+                                                        {{-- xoá sản phẩm trong giỏ hàng --}}
                                                         <td class="si-close">
-                                                            <i class="ti-close"></i>
+                                                            <i onclick="removeCart('{{$cart->rowId}}')" class="ti-close"></i>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -122,51 +123,39 @@
                                     </div>
                                     <div class="select-total">
                                         <span>Tổng tiền:</span>
-                                        <h5>{{Cart::total()}} VND</h5>
+                                        <h5>
+                                            {{number_format(str_replace(',', '', number_format(str_replace(',', '', Cart::subtotal()))), 0, ',', '.')}} VND
+                                            
+                                        </h5>
                                     </div>
                                     <div class="select-button">
-                                        <a href="{{url('cart/')}}" class="primary-btn view-card">Xem giỏ hàng</a>
-                                        <a href="#" class="primary-btn checkout-btn">Thanh toán</a>
+                                        <a href="{{route('cart')}}" class="primary-btn view-card">Xem giỏ hàng</a>
+                                        <a href="{{url('checkout')}}" class="primary-btn checkout-btn">Thanh toán</a>
                                     </div>
                                 </div>
                             </li>
-                            <li class="cart-price" style="font-size: 12px">{{Cart::total()}} VND</li>
+                            <li class="cart-price" style="font-size: 12px">
+                                {{number_format(str_replace(',', '', number_format(str_replace(',', '', Cart::subtotal()))), 0, ',', '.')}} VND
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="nav-item">
             <div class="container">
-                {{-- <div class="nav-depart">
-                    <div class="depart-btn">
-                        <i class="ti-menu"></i>
-                        <span>Danh mục</span>
-                        <ul class="depart-hover">
-                            <li class="active"><a href="#">Women's Clothing</a></li>
-                            <li class=""><a href="#">Men's Clothing</a></li>
-                            <li class=""><a href="#">Underwear</a></li>
-                            <li class=""><a href="#">Kid's Clothing</a></li>
-                            <li class=""><a href="#">Brand codeleanon</a></li>
-                            <li class=""><a href="#">Accessories/Shoes</a></li>
-                            <li class=""><a href="#">Luxury Brands</a></li>
-                            <li class=""><a href="#">Brand Outdoor Apparel</a></li>
-                        </ul>
-                    </div>
-                </div> --}}
                 <nav class="nav-menu mobile-menu">
                     <ul>
-                        <li class="{{(request()->segment(1) == '') ? 'active': '' }}"><a href="{{route('index')}}"?>Trang chủ</a></li>
-                        <li class="{{(request()->segment(1) == 'shop') ? 'active': '' }}"><a href="{{url('shop')}}">Sản phẩm</a></li>
-                        <li><a href="#">Liên Hệ</a></li>
-                        <li><a href="#">Giới thiệu</a></li>
-                        <li><a href="#">Liên quan</a>
-                            <ul class="dropdown">
-                                <li><a href="{{url('cart')}}">Giỏ hàng</a></li>
-                                <li><a href="#">Thanh toán</a></li>
-                                {{-- <li><a href="#">Faq</a></li> --}}
-                                <li><a href="{{url('account/register')}}">Đăng ký</a></li>
+                        <li class="{{(request()->segment(1) == '') ? 'active': '' }}"><a href="{{route('index')}}" style="padding: 16px 75px 15px">Trang chủ</a></li>
+                        <li class="{{(request()->segment(1) == 'shop') ? 'active': '' }}"><a href="{{url('shop')}}" style="padding: 16px 75px 15px">Sản phẩm</a></li>
+                        <li class="{{(request()->segment(1) == 'introduce') ? 'active': '' }}"><a href="{{url('introduce')}}" style="padding: 16px 75px 15px">Giới thiệu</a></li>
+                        <li class="{{(request()->segment(1) == 'contact') ? 'active': '' }}"><a href="{{url('contact')}}" style="padding: 16px 75px 15px">Liên Hệ</a></li>
+                        <li><a href="" style="padding: 16px 75px 15px">Liên quan</a>
+                            <ul class="dropdown" style="width: 230px;text-align: center">
+                                <li><a href="{{url('cart')}}" >Giỏ hàng</a></li>
+                                <li><a href="{{url('account/my-order/')}}">Đơn hàng của tôi</a></li>
+                                <li><a href="{{url('checkout')}}">Thanh toán</a></li>
+                                <li><a href="{{url('account/register')}}" >Đăng ký tài khoản</a></li>
                                 <li><a href="{{url('account/login')}}">Đăng nhập</a></li>
                             </ul>
                         </li>
@@ -213,11 +202,11 @@
                         <div class="footer-widget">
                             <h5>Danh mục </h5>
                             <ul>
-                                <li><a href="">Trang trí</a></li>
-                                <li><a href="">Phòng Ngủ</a></li>
-                                <li><a href="">Phòng Làm việc</a></li>
-                                <li><a href="">Phòng Khách</a></li>
-                                <li><a href="">Phòng Ăn</a></li>
+                                <li><a href="#">Trang trí</a></li>
+                                <li><a href="#">Phòng Ngủ</a></li>
+                                <li><a href="#">Phòng Làm việc</a></li>
+                                <li><a href="#">Phòng Khách</a></li>
+                                <li><a href="#">Phòng Ăn</a></li>
                             </ul>
                         </div>
                     </div>
@@ -227,9 +216,8 @@
                             <ul>
                                 <li><a href="{{route('index')}}">Trang Chủ</a></li>
                                 <li><a href="{{url('shop')}}">Sản phẩm</a></li>
-                                <li><a href="">Giỏ hàng</a></li>
-                                <li><a href="#">Liên hệ</a></li>
-                                <li><a href="#">Khuyến mãi</a></li>
+                                <li><a href="{{route('cart')}}">Giỏ hàng</a></li>
+                                <li><a href="{{url('contact')}}">Liên hệ</a></li>
                             </ul>
                         </div>
                     </div>

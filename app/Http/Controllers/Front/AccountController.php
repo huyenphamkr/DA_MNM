@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Orders;
 use App\Models\User;
 use App\Services\User\UserServiceInterface;
+use App\Services\Order\OrderServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -17,10 +19,12 @@ class AccountController extends Controller
 {
     // khai báo service
     private $userService;
+    private $orderService;
 
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(UserServiceInterface $userService, OrderServiceInterface $orderService)
     {
         $this->userService = $userService;
+        $this->orderService = $orderService;
     }
 
     public function login()
@@ -256,4 +260,31 @@ class AccountController extends Controller
         
     }
 
+    public function myOrderIndex()
+    {        
+        $orderListUser = $this->orderService->getOrderByUserId(Auth::id());// list order of user
+
+        return view('front.account.my-order.index', compact('orderListUser'));
+    }
+    public function myOrderShow($id){
+        $order = $this->orderService->find($id);
+        $orders = Orders::where('id','=',$id)->with('products')->get();     
+        $user = User::where('id',Auth::user()->id)->first();
+        return view('front.account.my-order.show', compact('orders','user','order'));
+    }
+    public function deleteMyOrder($id)
+    {
+       
+            $order = Orders::find($id);
+            if($order->status_id == 1)
+            {
+                $result = DB::table('orders')
+                    ->where('id', $id)
+                    ->update([
+                    'status_id' => 6,
+                ]);
+            }            
+        return redirect('account/my-order/');
+
+    }
 }

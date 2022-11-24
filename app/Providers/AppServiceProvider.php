@@ -4,12 +4,20 @@ namespace App\Providers;
 
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Order\OrderRepository;
+use App\Repositories\Order\OrderRepositoryInterface;
+use App\Repositories\OrderDetail\OrderDetailRepository;
+use App\Repositories\OrderDetail\OrderDetailRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Category\CategoryService;
 use App\Services\Category\CategoryServiceInterface;
+use App\Services\Order\OrderService;
+use App\Services\Order\OrderServiceInterface;
+use App\Services\OrderDetail\OrderDetailService;
+use App\Services\OrderDetail\OrderDetailServiceInterface;
 use App\Services\Product\ProductService;
 use App\Services\Product\ProductServiceInterface;
 use App\Services\User\UserService;
@@ -47,6 +55,29 @@ class AppServiceProvider extends ServiceProvider
             CategoryService::class
         );
 
+        // Order
+        $this->app->singleton(
+            OrderRepositoryInterface::class,
+            OrderRepository::class
+        );
+
+        $this->app->singleton(
+            OrderServiceInterface::class,
+            OrderService::class
+        );
+
+
+          // OrderDetail
+          $this->app->singleton(
+            OrderDetailRepositoryInterface::class,
+            OrderDetailRepository::class
+        );
+
+        $this->app->singleton(
+            OrderDetailServiceInterface::class,
+            OrderDetailService::class
+        );
+
         // user
 
         $this->app->singleton(
@@ -69,28 +100,3 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 }
-
-
-
-
-
-
-// <!-- 
-
-// namespace App\Providers;
-
-// use Illuminate\Support\ServiceProvider;
-
-// class AppServiceProvider extends ServiceProvider
-// {
-//     public function register()
-//     {
-//         //
-//     }
-
-    
-//     public function boot()
-//     {
-//         //
-//     }
-// }  -->

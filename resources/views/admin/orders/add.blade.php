@@ -318,12 +318,12 @@ function loadTable()
     '</tr>' +
     '<tr>' +
       ' <th style="width:50%">Tổng số lượng hàng:</th>' +
-      ' <td>'+SumAmount+' cái</td>' +
+      ' <td>'+SumAmount+' Cái</td>' +
     ' </tr>' +
-    '<tr>' +
-      ' <th>Phí vận chuyển:</th>' +
-        '<td>'+new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'VND' }).format(ship) +'</td>' +
-    '</tr>' +
+    // '<tr>' +
+    //   ' <th>Phí vận chuyển:</th>' +
+    //     '<td>'+new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'VND' }).format(ship) +'</td>' +
+    // '</tr>' +
     ' <tr>' +
         '<th>Tổng cộng tiền thanh toán:</th>' +
       ' <td>'+
@@ -338,7 +338,7 @@ function loadTable()
 function AddProductDetail(id)
 {
   // kiểm tra đầu vào của số lượng
-  ship = 30000;
+  ship = 0;
   let check = true;
   let amount = 0;
   let amount_pro = 0;
@@ -471,6 +471,9 @@ function deleteItem(id, $confirm = false)
 
 function AddOrder()
 {
+  $name = $("#name").val();
+  $address = $("#address").val();
+  $phone = $("#phone").val();
   $employee_id = '{{Auth::user()->id}}';
   $customer_id = $("#id").val();
   if($customer_id == "" || $customer_id.length === 0 || !$customer_id.trim())
@@ -490,6 +493,9 @@ function AddOrder()
     {
       employee_id: $employee_id,
       customer_id: $customer_id,
+      name : $name,
+      address : $address,
+      phone : $phone,
       data : detailOrder,
     },
     success: function(result){

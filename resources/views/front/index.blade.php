@@ -26,7 +26,23 @@
     <!-- {{-- Hero Section End --}} -->
 
     <!-- {{-- Banner Section Begin --}} -->
-    <div class="banner-section spad" style="padding: 80px 50px; background-color: rgb(241, 251, 251)">
+    <div class="partner-logo" style="background-color: cadetblue">
+        <div class="container">
+            <div class="logo-carousel owl-carousel">
+                @foreach($categories as $category)
+                <div class="logo-item" >
+                    <div class="single-banner">
+                        <img src="{{asset($category->image)}}" alt="" style="height: 150px" >
+                        <div class="inner-text">
+                            <a href="{{url('shop/category/'.$category->name.'')}}"><h4 style="padding: 11px 2px">{{$category->name}}</h4></a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    {{-- <div class="banner-section spad" style="padding: 80px 50px; background-color: rgb(241, 251, 251)">
         <div class="container-fluid">
             <div class="row">
                 @foreach($categories as $category)
@@ -41,7 +57,7 @@
                @endforeach
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- {{-- Banner Section End --}} -->
 
 
@@ -114,37 +130,6 @@
     <!-- {{-- Latest Blog Section Begin  --}} -->
     <section class="latest-blog spad">
         <div class="container">
-            {{-- <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>From The Blog</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single-latest-blog">
-                        <img src="img/latest-1.jpg" alt="">
-                        <div class="latest-text">
-                            <div class="tag-list">
-                                <div class="tag-item">
-                                    <i class="fa fa-calendar-o"></i>
-                                    May 10,2022
-                                </div>
-                                <div class="tag-item">
-                                    <i class="fa fa-comment-o"></i>
-                                    5
-                                </div>
-                            </div>
-                            <a href="">
-                                <h4>The Best Stress Style From London codelean on Week</h4>
-                            </a>
-                            <p>Sed quia non numquan modi tempora indunt ut labore et dolore magnam quaerat</p>
-                        </div>
-                    </div>
-                </div>
-                    
-            </div> --}}
         </div>
             <div class="container">
                 <div class="benefit-items">

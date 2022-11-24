@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="product-pic-zoom">
-                            <img class="product-big-img" src="{{asset($product->image)}}" alt="">
+                            <img class="product-big-img" src="{{asset($product->image)}}" alt="{{$product->name}}">
                             <div class="zoom-icon">
                                 <i class="fa fa-search-plus"></i>
                             </div>
@@ -61,7 +61,8 @@
                                     <div class="pro-qty">
                                         <input type="text" value="1">
                                     </div>
-                                    <a href="#" class="primary-btn pd-cart">Thêm vào giỏ</a>
+                                    {{-- <a href="javascript:addCart({{$product->id}})" class="primary-btn pd-cart">Thêm vào giỏ</a> --}}
+                                    <a href="javascript:AddCart({{$product->id}})" class="primary-btn pd-cart">Thêm vào giỏ</a>
                                 </div>
                             </div>
                             <ul class="pd-tags">
@@ -100,7 +101,7 @@
             @foreach ($relatedProducts as $product)
                 <div class="col-lg-3 col-sm-6">
                     
-                    @include('front.components.product-item')
+                    @include('front.components.product-item-related')
                     
                 </div>
             @endforeach  

@@ -81,7 +81,7 @@
               {{-- Khởi tạo vòng lập foreach lấy giá trị vào bảng--}}
               <?php 
               $key=1;
-              $cod = 30000;
+              $cod = 0;
               $sum = 0;
               $count = 0;
                ?>
@@ -135,10 +135,10 @@
                   <th style="width:50%">Tổng số lượng hàng:</th>
                   <td>{{$count}} Cái</td>
                 </tr>
-                <tr>
+                {{-- <tr>
                   <th>Phí vận chuyển:</th>
                   <td>{{number_format($cod, 0, ',', '.')}} VND</td>
-                </tr>
+                </tr> --}}
                 <tr>
                   <th>Tổng cộng tiền thanh toán:</th>
                   <td>{{number_format($order->total, 0, ',', '.')}} VND</td>

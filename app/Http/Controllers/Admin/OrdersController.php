@@ -36,17 +36,7 @@ class OrdersController extends Controller
 
             if(!empty($request->sort))
             {
-                if($request->sort == 1)
-                {
-                    if(empty($request->id))
-                    {
-                        $orderslist = $query->orderByDesc('id')->Search()->get();
-                    }
-                    else{
-                        $orderslist = $query->orderByDesc('id')->where(['status_id'=>$request->id])->Search()->get();
-                    }          
-                }
-                else
+                if($request->sort == 0)
                 {
                     if(empty($request->id))
                     {
@@ -54,6 +44,16 @@ class OrdersController extends Controller
                     }
                     else{
                         $orderslist = $query->where(['status_id'=>$request->id])->Search()->get();
+                    }          
+                }
+                else
+                {
+                    if(empty($request->id))
+                    {
+                        $orderslist = $query->orderByDesc('id')->Search()->get();
+                    }
+                    else{
+                        $orderslist = $query->orderByDesc('id')->where(['status_id'=>$request->id])->Search()->get();
                     }          
                 }
             }
@@ -76,7 +76,7 @@ class OrdersController extends Controller
             // }          
             return response()->json(['orderslist'=>$orderslist, 'statuslist'=>$statuslist,'users'=>$users]);
         }
-        $orderslist = $query->Search()->paginate(10);
+        $orderslist = $query->orderByDesc('id')->Search()->paginate(10);
         return view('admin.orders.list',[
             'title'=>'Danh Sách Hóa Đơn',
             'orderslist'=>$orderslist,
@@ -212,14 +212,16 @@ class OrdersController extends Controller
     {
         try
         {
-            $ship = 30000;
+            $ship = 0;
             $dataProduct = $_POST['data'];
             $employee_id = $_POST['employee_id'];
             $customer_id = $_POST['customer_id'];
+            $name =  $_POST['name'];
+            $phone =  $_POST['phone'];
+            $address =  $_POST['address'];
             $sum = 0;
             foreach ($dataProduct as $value) {
-                $sum += $value['price'] * $value['amount'];
-    
+                $sum += $value['price'] * $value['amount'];    
             }
             $total = $sum + $ship;
             $date = date("Y-m-d h:i:s");
@@ -242,6 +244,13 @@ class OrdersController extends Controller
                         'price'=>$price,
                     ]);
                 }
+                //cap nhật thông tin khách hàng
+                $user = User::where('id', $customer_id)->first(); 
+                $user->update([
+                    'name'=> $name,
+                    'address'=>$address,
+                    'phone_number'=>$phone,
+                ]);
             }
             session()->flash('success', 'Thêm hóa đơn thành Công');
         }catch(\Exception $err){

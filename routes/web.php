@@ -17,6 +17,9 @@ use App\Http\Controllers\Front\AccountController;
 use App\Http\Controllers\Front\IndexController;
 use App\Http\Controllers\Front\ShopController;
 use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\CheckOutController;
+use App\Http\Controllers\Front\IntroduceController;
+use App\Http\Controllers\Front\ContactController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,10 +55,31 @@ Route::prefix('shop')->group(function() {
 
 // ShoppingCart
 Route::prefix('cart')->group(function() {
-    Route::get('add', [CartController::class,'add']);
+    Route::get('add', [CartController::class,'add'])->name('add');
     Route::get('/', [CartController::class,'index'])->name('cart');
     Route::get('delete', [CartController::class,'delete']);
+    // xóa toàn bộ giỏ hàng
+    Route::get('destroy', [CartController::class,'destroy']);
+    // cập nhật giỏ hàng
+    Route::get('update', [CartController::class,'update']);
 });
+
+// Checkout
+Route::prefix('checkout')->group(function() {
+    Route::get('', [CheckOutController::class,'index'])->name('checkout');
+   // Route::middleware(['auth'])->group(function(){
+    Route::post('/', [CheckOutController::class,'addOrder']);
+    Route::get('/result', [CheckOutController::class,'result']);
+    //});
+    
+});
+
+// introduce
+    Route::get('introduce', [IntroduceController::class,'index']);
+
+//contact
+    Route::get('contact', [ContactController::class,'index']);
+
 
 // login
 Route::prefix('account')->group(function(){
@@ -71,6 +95,12 @@ Route::prefix('account')->group(function(){
     Route::post('forget',[AccountController::class,'postForget']);
     Route::get('reset/{user}/{token}',[AccountController::class,'reset'])->name('reset');
     Route::post('reset/{user}/{token}',[AccountController::class,'postReset']);   
+
+    Route::prefix('my-order')->group(function(){
+        Route::get('/',[AccountController::class,'myOrderIndex'])->name('myorder');
+        Route::get('show/{id}',[AccountController::class,'myOrderShow']);
+        Route::get('delete/{id}',[AccountController::class,'deleteMyOrder']);
+    });
 });
 
 
@@ -229,7 +259,11 @@ Route::middleware(['auth'])->group(function(){
          //Thống kê
          Route::prefix('statistic')->group(function (){
              //Hiển thị danh sách
-             Route::get('index',[StatisticController::class,'index']);
+            Route::get('vip',[StatisticController::class,'vip'])->name('vip');
+
+            //in
+            Route::get('print/{year}',[StatisticController::class,'print']); 
+
             //Hiển thị danh sách
             Route::get('sales',[StatisticController::class,'index']);
             //Thêm
@@ -249,6 +283,9 @@ use Illuminate\Support\Str;
 //Route::get('test', [PurchaseController::class,'test']);
 Route::get('test',function()
 { 
-    $token = Str::random(20);   
-    echo $token;  
+    $numx = '1,100,000.00';
+$balance = str_replace(',', '', $numx);
+echo $balance."<br>";
+echo number_format($balance)."<br>";
+   //return view('admin.statistic.sales',[ 'title'=>'Danh Sách Top 10 Khách Hàng VIP Trong Năm: ']);
 });

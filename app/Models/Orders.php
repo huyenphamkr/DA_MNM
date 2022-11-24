@@ -9,6 +9,14 @@ class Orders extends Model
 {
     use HasFactory;
     protected $table = 'orders';
+    protected $fillable = [
+        'user_id',
+        'date',
+        'total',
+        'note',
+        'payment',
+        'status_id',
+    ];
     public function status(){
         return $this->belongsTo('App\Models\Status','status_id', 'id');
     }
@@ -24,11 +32,14 @@ class Orders extends Model
         return $this->belongsTo('App\Models\User','employee_id', 'id');
     }
 
-
     public function products()
     {
         return $this->belongsToMany('App\Models\Product', 'orderdetail', 'order_id', 'product_id')
         ->withPivot('quantity','price');
+    }
+
+    public function users(){
+        return $this->belongsTo('App\Models\User','user_id', 'id');
     }
 
 

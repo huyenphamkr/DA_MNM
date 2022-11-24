@@ -69,7 +69,6 @@
                                 <option value="Nữ" >Nữ</option>
                             </select>
                         </div>
-
                         <button type="submit" class="site-btn register-btn">Đăng ký</button>
                     </form>
                     <div class="switch-login">

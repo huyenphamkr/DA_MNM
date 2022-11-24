@@ -245,12 +245,17 @@
 			}
 		}
 		$button.parent().find('input').val(newVal);
+
+        // update cart:
+        var rowId = $button.parent().find('input').data('rowid');
+        updateCart(rowId, newVal);
 	});
 
 })(jQuery);
 
 // giỏ hàng
 
+// Hàm ajax thêm sp vào giỏ hàng
 function addCart(productId)
 {
     $.ajax({
@@ -260,41 +265,43 @@ function addCart(productId)
         success: function (response) {
             // thêm thành công cập nhật lại HTML
             $('.cart-count').text(response['count']);
-            $('.cart-price').text(response['total'] + 'VND');
-            $('.select-total h5').text(response['total'] + 'VND');
+            $('.cart-price').text(response['subtotal'] + 'VND');
+            $('.select-total h5').text(response['subtotal'] + 'VND');
 
             // Cập nhật hiển thị sản phẩm mới thêm
             var cartHover_tbody = $('.select-items tbody');
             var cartHover_existItem = cartHover_tbody.find("tr" + "[data-rowId='" + response['cart'].rowId + "']");
 
             if (cartHover_existItem.length){
-                cartHover_existItem.find('.product-selected p').text(response['cart'].price.toFixed(2)+ 'VND' + ' x ' + response['cart'].qty );
+                cartHover_existItem.find('.product-selected p').text(response['cart'].price + 'VND' + ' x ' + response['cart'].qty );
             }else{
                 // hiển thị sản phẩm mới thêm vào giỏ hàng
                 var newItem = 
-                '<tr data-rowId="' + response['cart'].rowId + '">\n' +
-                '   <td class="si-pic"> \n' +
-                '       <img style="height: 70px;"\n' +
-                '           src="{{asset(' + response['cart'].options.images +')}}" >\n' + 
-                '    </td>\n' +
-                '    <td class="si-text">\n' +
-                '        <div class="product-selected">\n' +
-                '             <p>' + response['cart'].price.toFixed(3) + 'VND' + 'x' + response['cart'].qty + ' </p>\n' +
-                '              <h6>' + response['cart'].name + '</h6>\n' +
-                '         </div>\n' +
-                '    </td>\n' +
-                '    <td class="si-close">\n' +
-                '         <i class="ti-close"></i>\n' +
-                '    </td>\n' +
-                '</tr>';
+                    '<tr data-rowId="' + response['cart'].rowId + '">\n' +
+                    '   <td class="si-pic"> \n' +
+                    '       <img style="height: 70px;"\n' +
+                    '           src="{{asset(' + response['cart'].options.images +')}}" >\n' + 
+                    '    </td>\n' +
+                    '    <td class="si-text">\n' +
+                    '        <div class="product-selected">\n' +
+                    '             <p>' + response['cart'].price + 'VND' + 'x' + response['cart'].qty + ' </p>\n' +
+                    '              <h6>' + response['cart'].name + '</h6>\n' +
+                    '         </div>\n' +
+                    '    </td>\n' +
+                    '    <td class="si-close">\n' +
+                    '         <i onclick="removeCart(\'' +  +'\')" class="ti-close"></i>\n' +
+                    '    </td>\n' +
+                    '</tr>';
                 cartHover_tbody.append(newItem);
             }
             // hiển thị thông báo thêm vào giỏ hàng thành công
-            alert('Thêm vào giỏ thành công!\nProduct: ' + response['cart'].name)
+            location.reload();
+            alert('Thêm vào giỏ thành công!\nSản phẩm: ' + response['cart'].name);
             console.log(response);
         },
         // Hiển thị thông báo thêm vào giỏ hàng thất bại
         error:function (response) {
+            location.reload();
             alert('Thêm thất bại.');
             console.log(response);
         }, 
@@ -302,6 +309,7 @@ function addCart(productId)
     });
 }
 
+// Hàm ajax xóa sản phẩm trong giỏ hàng
 function removeCart(rowId)
 {
     $.ajax({
@@ -311,28 +319,168 @@ function removeCart(rowId)
         success: function (response) {
             // Xử lý phần cart hover (trang master-page)
             $('.cart-count').text(response['count']);
-            $('.cart-price').text(response['total'] + 'VND');
-            $('.select-total h5').text(response['total'] + 'VND');
+            $('.cart-price').text(response['subtotal'] + 'VND');
+            $('.select-total h5').text(response['subtotal'] + 'VND');
 
             // Cập nhật hiển thị sản phẩm mới thêm
             var cartHover_tbody = $('.select-items tbody');
-            var cartHover_existItem = cartHover_tbody.find("tr" + "[data-rowId='" + response['cart'].rowId + "']");
+            var cartHover_existItem = cartHover_tbody.find("tr" + "[data-rowId='" + rowId + "']");
 
             cartHover_existItem.remove();
 
             // Xử lý trong trang "shop/cart"
             var cart_tbody = $('.cart-table tbody');
-            var cart_existItem = cartHover_tbody.find("tr" + "[data-rowId='" + response['cart'].rowId + "']");
+            var cart_existItem = cart_tbody.find("tr" + "[data-rowId='" + rowId + "']");
             cart_existItem.remove();
-
-            // hiển thị thông báo thêm vào giỏ hàng thành công
-            alert('Xóa thành công!\nProduct: ' + response['cart'].name)
+            location.reload();
+            // hiển thị thông báo xóa giỏ hàng thành công
+            alert('Xóa thành công!\nSản phẩm: ' + response['cart'].name)
             console.log(response);
         },
-        // Hiển thị thông báo thêm vào giỏ hàng thất bại
+        // Hiển thị thông báo xóa sp giỏ hàng thất bại
         error:function (response) {
             alert('Xóa thất bại.');
             console.log(response);
         },
     }); 
+}
+
+// Hàm ajax xóa toàn bộ giỏ hàng
+function destroyCart()
+{
+    
+    $.ajax({
+        type: "GET",
+        url: "cart/destroy",
+        data: {},
+        success: function (response) {
+            // Xử lý phần cart hover (trang master-page)
+            $('.cart-count').text('0');
+            $('.cart-price').text('0');
+            $('.select-total h5').text('0');
+
+            // Cập nhật giỏ hàng
+            var cartHover_tbody = $('.select-items tbody');
+            cartHover_tbody.children().remove();
+            
+
+            // Xử lý trong trang "shop/cart"
+            var cart_tbody = $('.cart-table tbody');
+            cart_tbody.children().remove();
+
+            $('.subtotal span').text('0');
+            $('.cart-total span').text('0');
+            location.reload();
+            // hiển thị thông báo xóa giỏ hàng thành công
+            alert('Xóa thành công!\nSản phẩm: ' + response['cart'].name)
+            console.log(response);
+        },
+        // Hiển thị thông báo xóa sp giỏ hàng thất bại
+        error:function (response) {
+            alert('Xóa thất bại.');
+            console.log(response);
+        },
+    }); 
+}
+
+// cập nhật giỏ hàng
+function updateCart(rowId, qty)
+{
+    $.ajax({
+        type: "GET",
+        url: "cart/update",
+        data: {rowId: rowId, qty: qty},
+        success: function (response) {
+            // Xử lý phần cart hover (trang master-page)
+            $('.cart-count').text(response['count']);
+            $('.cart-price').text(response['subtotal'] + 'VND');
+            $('.select-total h5').text(response['subtotal'] + 'VND');
+
+            // Cập nhật giỏ hàng
+            var cartHover_tbody = $('.select-items tbody');
+            var cartHover_existItem = cartHover_tbody.find("tr" + "[data-rowId='" + rowId + "']");
+            if(qty === 0){
+                cartHover_existItem.remove();
+            }else {
+                cartHover_existItem.find('.product-selected p').text(response['cart'].price + 'VND' + ' x ' + response['cart'].qty);
+            }
+
+            // Xử lý trong trang "shop/cart"
+            var cart_tbody = $('.cart-table tbody');
+            var cart_existItem = cart_tbody.find("tr" + "[data-rowId='" + rowId + "']");
+            if(qty === 0){
+                cart_existItem.remove();
+            }else {
+                cart_existItem.find('.total-price').text(((response['cart'].price) * (response['cart'].qty)) + 'VND' );
+            }
+
+            $('.subtotal span').text(response['subtotal'] + 'VND');
+            $('.cart-total span').text(response['subtotal'] + 'VND');
+            location.reload();
+
+            // hiển thị thông báo xóa giỏ hàng thành công
+            // alert('Cập nhật thành công!\nSản phẩm: ' + response['cart'].name)
+            // console.log(response);
+        },
+        // Hiển thị thông báo xóa sp giỏ hàng thất bại
+        error:function (response) {
+            alert('Cập nhật thất bại.');
+            console.log(response);
+        },
+    }); 
+}
+
+
+function AddCart(productId)
+{
+    $.ajax({
+        
+        type: "GET",
+       url :  "../../cart/add",
+        data: {productId: productId},
+        success: function (response) {
+            // thêm thành công cập nhật lại HTML
+            $('.cart-count').text(response['count']);
+            $('.cart-price').text(response['subtotal'] + 'VND');
+            $('.select-total h5').text(response['subtotal'] + 'VND');
+
+            // Cập nhật hiển thị sản phẩm mới thêm
+            var cartHover_tbody = $('.select-items tbody');
+            var cartHover_existItem = cartHover_tbody.find("tr" + "[data-rowId='" + response['cart'].rowId + "']");
+
+            if (cartHover_existItem.length){
+                cartHover_existItem.find('.product-selected p').text(response['cart'].price + 'VND' + ' x ' + response['cart'].qty );
+            }else{
+                // hiển thị sản phẩm mới thêm vào giỏ hàng
+                var newItem = 
+                    '<tr data-rowId="' + response['cart'].rowId + '">\n' +
+                    '   <td class="si-pic"> \n' +
+                    '       <img style="height: 70px;"\n' +
+                    '           src="{{asset(' + response['cart'].options.images +')}}" >\n' + 
+                    '    </td>\n' +
+                    '    <td class="si-text">\n' +
+                    '        <div class="product-selected">\n' +
+                    '             <p>' + response['cart'].price + 'VND' + 'x' + response['cart'].qty + ' </p>\n' +
+                    '              <h6>' + response['cart'].name + '</h6>\n' +
+                    '         </div>\n' +
+                    '    </td>\n' +
+                    '    <td class="si-close">\n' +
+                    '         <i onclick="removeCart(\'' +  +'\')" class="ti-close"></i>\n' +
+                    '    </td>\n' +
+                    '</tr>';
+                cartHover_tbody.append(newItem);
+            }
+            // hiển thị thông báo thêm vào giỏ hàng thành công
+            location.reload();
+            alert('Thêm vào giỏ thành công!\nSản phẩm: ' + response['cart'].name);
+            console.log(response);
+        },
+        // Hiển thị thông báo thêm vào giỏ hàng thất bại
+        error:function (response) {
+            location.reload();
+            alert('Thêm thất bại.');
+            console.log(response);
+        }, 
+
+    });
 }
