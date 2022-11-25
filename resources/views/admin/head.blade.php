@@ -5,16 +5,16 @@
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="{{asset('template/admin/plugins/fontawesome-free/css/all.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminstyle/admin/plugins/fontawesome-free/css/all.min.css')}}">
 <!-- icheck bootstrap -->
-<link rel="stylesheet" href="{{asset('template/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminstyle/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
 <!-- Theme style -->
-<link rel="stylesheet" href="{{asset('template/admin/dist/css/adminlte.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminstyle/admin/dist/css/adminlte.min.css')}}">
 
 <!-- DataTables -->
-<link rel="stylesheet" href="{{asset('template/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-<link rel="stylesheet" href="{{asset('template/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-<link rel="stylesheet" href="{{asset('template/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminstyle/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminstyle/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('adminstyle/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 
 <link rel="icon" type="image/png" sizes="144x144" href="{{asset('image/furniture-logo-cricle.png')}}">
 

@@ -45,7 +45,7 @@ class StatisticController extends Controller
                 ->groupBy('user_id')->orderByDesc('totalPrice')->whereYear('date', $year)->where('status_id',5)
                 ->skip(0)->take(10)->get();
         return view('admin.statistic.vip',[
-            'title'=>'Danh Sách Top 10 Khách Hàng VIP Trong Năm: '.$year,
+            'title'=>'Danh Sách Top 10 Khách Hàng VIP Trong Năm',
             'users'=>$users,
             'listUser'=>$listUser
         ]);

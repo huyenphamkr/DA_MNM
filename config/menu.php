@@ -116,13 +116,9 @@ return [
         'icon' => 'fa-chart-bar',
         'items' => [
             [
-                'label' => 'Thống kê doanh thu',
-                'route' => 'admin/statistic/list',
+                'label' => 'Thống kê khách hàng VIP',
+                'route' => 'admin/statistic/vip',
             ],
-            [
-                'label' => 'Thêm Nhà Cung Cấp',
-                'route' => 'admin/supplier/add',
-            ]
         ] 
     ],
 ]

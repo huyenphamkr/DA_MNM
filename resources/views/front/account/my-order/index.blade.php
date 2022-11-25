@@ -40,6 +40,7 @@
                                 <th>Hình ảnh</th>                              
                                 <th class="p-name">Tên sản phẩm</th>
                                 <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
                                 <th>Chi tiết</th>
                             </tr>
                         </thead>
@@ -74,7 +75,7 @@
                                         <h5>                                        
                                             {{$product->name}}                                            
                                             @if (count($order->orderDetails)>1)
-                                                (và {{ count($order->orderDetails)-1 }} sản phẩm khác)    
+                                                và {{ count($order->orderDetails)-1 }} sản phẩm khác
                                             @endif                                            
                                         </h5>
                                     </td>
@@ -89,6 +90,23 @@
                             @endforeach
                                     <td class="total-price first-row">
                                         {{ number_format($orders->total, 0, ',', '.')}}VND
+                                    </td>
+                                    @if ($order->status_id == 6)
+                                    
+                                        <?php $color = "red"?>
+                                    
+                                    @else
+                                    
+                                        @if ($order->status_id == 1)
+                                            <?php $color = "blue"?>
+                                        @else
+                                            <?php $color = "black"?>
+                                        @endif
+                                    
+                                        
+                                    @endif
+                                    <td class="first-row" style="color:{{$color}}">
+                                        {{$orders->status->name}}
                                     </td>
                                     <td class="first-row">
                                         <a class="btn" href="{{url('account/my-order/show/'.$orders->id.'')}}">Chi tiết</a>

@@ -22,7 +22,7 @@ $year = $now["year"]."-".$now["mon"]."-".$now["mday"];
               <a href="#">
                 <button onclick="YearChange()" style="width:130px" type="button" class="btn btn-primary">Lọc</button>
               </a>
-              <a href="{{ url('admin/statistic/print/'.$year.'')}}" id="print" target="_blank">
+              <a href="#" id="print" target="_blank">
                 <button style="margin-left: 10px; width:100px" type="button" class="btn btn-primary"><i class="fas fa-print"></i> In</button>
               </a>
           </div>      
@@ -100,15 +100,15 @@ $year = $now["year"]."-".$now["mon"]."-".$now["mday"];
 
 @section('handle')
 <!-- ChartJS -->
-{{-- <script src="{{asset('template/admin/plugins/chart.js/Chart.min.js')}}"></script> --}}
+{{-- <script src="{{asset('adminstyle/admin/plugins/chart.js/Chart.min.js')}}"></script> --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-{{-- <script src="{{asset('template/admin/dist/js/pages/dashboard3.js')}}"></script> --}}
+{{-- <script src="{{asset('adminstyle/admin/dist/js/pages/dashboard3.js')}}"></script> --}}
 <!-- DataTables  & Plugins -->
-<script src="{{asset('template/admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('template/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('template/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('template/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{asset('template/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 <script>
   $(function () {
     $("#example1").DataTable({
@@ -130,7 +130,7 @@ function Print()
   var $date = document.getElementById("year").value;
   d= new Date($date);
   $year = d.getFullYear();
-  alert($year);
+  //alert($year);
   $.get("print", $year);
 }
 
@@ -138,7 +138,7 @@ function YearChange() {
   var $date = document.getElementById("year").value;
   d= new Date($date);
   $year = d.getFullYear();
-  alert(d.getFullYear());
+  //alert(d.getFullYear());
   $.ajax({
     url: "{{route('vip')}}",
     method: "GET",

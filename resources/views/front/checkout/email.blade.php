@@ -55,9 +55,10 @@
                             <span>{{ $user->phone_number }}</span>
                         </div>
                         <div class="col-6" style="flex: 0 0 50%; width: 50%; box-sizing: border-box;">
-                            {{-- <b>Ngày đặt hàng:</b> {{ date('d/m/yy H:i', strtotime($order->created_at)) }} --}}
+                            <b>Ngày đặt hàng:</b> {{ date('d/m/yy H:i', strtotime($order->date)) }}
                             <br>
-                            <b>Địa chỉ:</b> {{ $user->address}}
+                            <p style="color: white"><b >Địa chỉ:</b> {{ $user->address}}</p>
+                            
                         </div>
                     </div>
                 </div>
@@ -144,12 +145,12 @@
                             <hr style="border-top: 1px solid #0000001a;">
                             <table class="mt-2 w-100"
                                    style="font-size: 16px; width: 100%; text-align: left;  margin-bottom: 5px;">
-                                <tr>
+                                {{-- <tr>
                                     <td class="">Phí vận chuyển</td>
                                     <td class="pr-3 text-right" style="text-align: right; padding-right: 20px;">
                                         0 VND
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td class="">Tạm tính</td>
                                     <td class="pr-3 text-right" style="text-align: right; padding-right: 20px;">

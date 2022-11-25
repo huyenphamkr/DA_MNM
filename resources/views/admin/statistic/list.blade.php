@@ -153,7 +153,7 @@
 @endsection
 @section('handle')
 <!-- ChartJS -->
-<script src="{{asset('template/admin/plugins/chart.js/Chart.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/chart.js/Chart.min.js')}}"></script>
 
 <script>
   $(function () {

@@ -82,7 +82,8 @@
                                         </li>
                                     @endforeach
                                 @endforeach 
-
+                                <li>Tổng tiền <span>{{number_format($order->total, 0, ',', '.')}} VND</span></li>
+                                <li>Ngày đặt <span>{{$order->date}}</span></li>
                             </ul> 
                             <div class="payment-check">
                                 <div class="pc-item">

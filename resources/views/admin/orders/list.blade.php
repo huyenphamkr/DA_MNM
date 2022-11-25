@@ -92,7 +92,7 @@
                     @else
                       {{ $orders->employee->name }}
                     @endif                    
-                  </td>                  
+                  </td>        
                   <td>{{date_format(date_create($orders->date),"d/m/Y")}}</td> 
                   <td>{{date_format(date_create($orders->date),"H:i:s")}}</td> 
                   <td>{{ number_format($orders->total, 0, ',', '.')}} VND</td>
@@ -158,17 +158,24 @@ $(document).ready(function() {
           html += '<tr style="text-align: center">\
             <td>'+(i+1)+'</td>\
             <td>'+ orders[i]['id'] +'</td>';
-
+            
             for(let j=0; j<users.length;j++){
               if(users[j]['id'] === orders[i]['user_id'])
               {
                 html += ' <td style="text-align: left">'+ users[j]['name'] +'</td>';
+              }             
+            }
+            if(orders[i]['employee_id'] == null)
+              {
+                html += ' <td style="text-align: left">'+ " " +'</td>';
               }
+            for(let j=0; j<users.length;j++){
               if(users[j]['id'] === orders[i]['employee_id'])
               {
                 html += ' <td style="text-align: left">'+ users[j]['name'] +'</td>';
-              }
-            }
+              }            
+            }           
+            
             html +='<td>'+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear()+'</td>\
             <td>'+date.getHours()+':'+(date.getMinutes())+':'+date.getSeconds()+'</td>\
             <td>'+ new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'VND' }).format(orders[i].total )+ '</td>\
@@ -224,17 +231,22 @@ function StatusChange() {
           html += '<tr style="text-align: center">\
             <td>'+(i+1)+'</td>\
             <td>'+ orders[i]['id'] +'</td>';
-
             for(let j=0; j<users.length;j++){
               if(users[j]['id'] === orders[i]['user_id'])
               {
                 html += ' <td style="text-align: left">'+ users[j]['name'] +'</td>';
+              }             
+            }
+            if(orders[i]['employee_id'] == null)
+              {
+                html += ' <td style="text-align: left">'+ " " +'</td>';
               }
+            for(let j=0; j<users.length;j++){
               if(users[j]['id'] === orders[i]['employee_id'])
               {
                 html += ' <td style="text-align: left">'+ users[j]['name'] +'</td>';
-              }
-            }
+              }            
+            }   
             html +='<td>'+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear()+'</td>\
             <td>'+date.getHours()+':'+(date.getMinutes())+':'+date.getSeconds()+'</td>\
             <td>'+ new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'VND' }).format(orders[i].total )+ '</td>\
@@ -296,12 +308,18 @@ function SortChange() {
               if(users[j]['id'] === orders[i]['user_id'])
               {
                 html += ' <td style="text-align: left">'+ users[j]['name'] +'</td>';
+              }             
+            }
+            if(orders[i]['employee_id'] == null)
+              {
+                html += ' <td style="text-align: left">'+ " " +'</td>';
               }
+            for(let j=0; j<users.length;j++){
               if(users[j]['id'] === orders[i]['employee_id'])
               {
                 html += ' <td style="text-align: left">'+ users[j]['name'] +'</td>';
-              }
-            }
+              }            
+            }   
             html +='<td>'+date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear()+'</td>\
             <td>'+date.getHours()+':'+(date.getMinutes())+':'+date.getSeconds()+'</td>\
             <td>'+ new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'VND' }).format(orders[i].total )+ '</td>\

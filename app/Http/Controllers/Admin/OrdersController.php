@@ -81,6 +81,7 @@ class OrdersController extends Controller
             'title'=>'Danh Sách Hóa Đơn',
             'orderslist'=>$orderslist,
             'statuslist'=>$statuslist,
+            'users'=>$users,
         ]);
     }
 

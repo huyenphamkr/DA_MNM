@@ -55,11 +55,11 @@
 
 @section('handle')
 <!-- DataTables  & Plugins -->
-<script src="{{asset('template/admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('template/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('template/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('template/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{asset('template/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 <script>
   $(function () {
     $("#example1").DataTable({

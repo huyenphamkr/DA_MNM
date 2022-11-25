@@ -196,9 +196,9 @@
 @endsection
 @section('handle')
 <!-- ChartJS -->
-<script src="{{asset('template/admin/plugins/chart.js/Chart.min.js')}}"></script>
+<script src="{{asset('adminstyle/admin/plugins/chart.js/Chart.min.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('template/admin/dist/js/pages/dashboard3.js')}}"></script>
+<script src="{{asset('adminstyle/admin/dist/js/pages/dashboard3.js')}}"></script>
 <script>
   $(function () {
     var areaChartCanvas = $('#areaChart').get(0).getContext('2d')

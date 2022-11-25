@@ -259,33 +259,7 @@ Route::middleware(['auth'])->group(function(){
          //Thống kê
          Route::prefix('statistic')->group(function (){
              //Hiển thị danh sách
-            Route::get('vip',[StatisticController::class,'vip'])->name('vip');
-
-            //in
-            Route::get('print/{year}',[StatisticController::class,'print']); 
-
-            //Hiển thị danh sách
-            Route::get('sales',[StatisticController::class,'index']);
-            //Thêm
-            Route::get('add',[StatisticController::class,'create']);
-            Route::post('add',[StatisticController::class,'store']);
-            //Cập nhật
-            Route::get('edit/{id}',[StatisticController::class,'edit']);
-            Route::post('edit/{id}',[StatisticController::class,'update']);
-            //Xóa
-            Route::get('destroy/{id}',[StatisticController::class,'destroy']);                  
-        });
-
-        
+            Route::get('vip',[StatisticController::class,'vip'])->name('vip');            
+        });        
     });
-});
-use Illuminate\Support\Str;
-//Route::get('test', [PurchaseController::class,'test']);
-Route::get('test',function()
-{ 
-    $numx = '1,100,000.00';
-$balance = str_replace(',', '', $numx);
-echo $balance."<br>";
-echo number_format($balance)."<br>";
-   //return view('admin.statistic.sales',[ 'title'=>'Danh Sách Top 10 Khách Hàng VIP Trong Năm: ']);
 });

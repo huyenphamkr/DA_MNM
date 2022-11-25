@@ -26,7 +26,7 @@
     <!-- {{-- Hero Section End --}} -->
 
     <!-- {{-- Banner Section Begin --}} -->
-    <div class="partner-logo" style="background-color: cadetblue">
+    <div class="partner-logo" style="background-color: cornsilk">
         <div class="container">
             <div class="logo-carousel owl-carousel">
                 @foreach($categories as $category)

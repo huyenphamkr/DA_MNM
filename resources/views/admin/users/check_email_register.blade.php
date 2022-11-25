@@ -10,7 +10,7 @@
                     {{-- <tr>
                         <td style="text-align:center;">
                           <a href="#" title="logo" target="_blank">
-                            <img width="60" src="http://localhost:88/NewClone/DA_MNM/public/template/admin/dist/img/furniture-logo-980x980.jpg" title="logo" alt="logo">
+                            <img width="60" src="http://localhost:88/NewClone/DA_MNM/public/adminstyle/admin/dist/img/furniture-logo-980x980.jpg" title="logo" alt="logo">
                           </a>
                         </td>
                     </tr> --}}

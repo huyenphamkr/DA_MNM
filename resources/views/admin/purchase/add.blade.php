@@ -81,6 +81,7 @@ $.ajaxSetup({
 let detailPurchase = new Array();
 let productadd = new Array();
 let listproduct = new Array();
+var ship = 0;
 loadTable();
 loadProduct();
 
@@ -260,7 +261,7 @@ function loadTable()
 function AddProductDetail(id)
 {
   // kiểm tra đầu vào của số lượng
-  ship = 30000;
+  ship = 0;
   let check = true;
   let amount = 0;
   let amount_pro = 0;
