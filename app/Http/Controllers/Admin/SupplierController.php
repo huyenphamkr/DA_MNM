@@ -37,6 +37,12 @@ class SupplierController extends Controller
             'phone_number.required' => 'Vui lòng nhập sđt',
         ]);
         try{
+            $supplier = new Supplier();
+            $supplier->name = $request->name;
+            $supplier->address = (string) $request->input('address');
+            $supplier->phone_number =  (string) $request->input('phone_number');
+            $supplier->active = (int) $request->input('active');
+            $supplier->save();
             // Supplier::create([
             //     'name' => (string) $request->input('name'),
             //     'address' => (string) $request->input('address'),
