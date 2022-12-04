@@ -53,7 +53,7 @@ class CustomerController extends Controller
                 'name' => (string) $request->input('name'),
                 'email' => (string) $request->input('email'),
                 'role_id' => 3,
-                'password' => (string) $request->input('password'),
+                'password' => (string) bcrypt($request->input('password')),
                 'address' => (string) $request->input('address'),
                 'phone_number' => (string) $request->input('phone_number'),
                 'gender' => (string) $request->input('gender'),

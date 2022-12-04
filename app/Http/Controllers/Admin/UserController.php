@@ -52,8 +52,8 @@ class UserController extends Controller
             User::create([
                 'name' => (string) $request->input('name'),
                 'email' => (string) $request->input('email'),
-                'role_id' => (int) $request->input('role_id'),
-                'password' => (string) $request->input('password'),
+                'role_id' => (int) $request->input('role'),
+                'password' => (string) bcrypt($request->input('password')),
                 'address' => (string) $request->input('address'),
                 'phone_number' => (string) $request->input('phone_number'),
                 'gender' => (string) $request->input('gender'),
@@ -132,10 +132,11 @@ class UserController extends Controller
             'gender.required' => 'Vui lòng nhập giới tính',
         ]);
         try{
+            
             $user->name = (string) $request->input('name');
             $user->email = (string) $request->input('email');
             $user->role_id = (int) $request->input('role');
-            $user->password = (string) $request->input('password');
+            $user->password = (string) bcrypt($request->input('password'));
             $user->address = (string) $request->input('address');
             $user->phone_number = (string) $request->input('phone_number');
             $user->gender = (string) $request->input('gender');
