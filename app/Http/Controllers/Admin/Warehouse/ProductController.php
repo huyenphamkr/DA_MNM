@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Warehouse;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -13,17 +13,7 @@ class ProductController extends Controller
     {
         date_default_timezone_set("Asia/Ho_Chi_Minh");
     }
-    // public function api($id = null)
-    // {
-    //     if($id == null)
-    //     {
-    //         return  Product::orderByDesc('id')->get();
-    //     }
-    //     else
-    //     {
-    //         return  Product::find($id);
-    //     }
-    // }
+
     
     /**
      * Display a listing of the resource.
@@ -35,7 +25,7 @@ class ProductController extends Controller
         $categories = Category::all();
        //$products = Product::orderBy('id')->paginate(15); //paginate(5);
        $products = Product::orderByDesc('id')->Search()->paginate(15); //paginate(5);
-        return view('admin.product.list',[
+        return view('admin.warehouse.product.list',[
             'title'=>'Danh Sách Sản Phẩm',
             'products'=>$products,
             'categories'=>$categories,
@@ -50,7 +40,7 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.product.add',[
+        return view('admin.warehouse.product.add',[
             'title'=>'Thêm Sản Phẩm',
             'categories'=>$categories,
         ]);
@@ -114,7 +104,7 @@ class ProductController extends Controller
         }catch(\Exception $err){
             session()->flash('error', $err->getMessage());
         }
-       return redirect('admin/product/add');
+       return redirect('admin/warehouse/product/add');
     }
 
     /**
@@ -138,7 +128,7 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $product = Product::find($id);
-        return view('admin.product.edit',[
+        return view('admin.warehouse.product.edit',[
             'title'=>'Chỉnh Sửa Sản Phẩm: '.$product->name,
             'product'=>$product,
             'categories'=>$categories,
@@ -196,7 +186,7 @@ class ProductController extends Controller
         }catch(\Exception $err){
             session()->flash('error', $err->getMessage());
         }
-       return redirect('admin/product/list');
+       return redirect('admin/warehouse/product/list');
     }
 
     /**
@@ -225,7 +215,7 @@ class ProductController extends Controller
         }catch(\Exception $err){
             session()->flash('error', $err->getMessage());
         }
-        return redirect('admin/product/list');
+        return redirect('admin/warehouse/product/list');
     }
 
 

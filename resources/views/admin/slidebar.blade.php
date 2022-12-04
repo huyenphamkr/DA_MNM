@@ -28,7 +28,90 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-          @foreach ($menus as $menu)
+          @if (Auth::user()->id == 2)
+            @foreach ($menus as $key => $menu)
+              @if (isset($menu['id']))
+                <li class="nav-item">
+                  <a href="{{url($menu['route'])}}" class="nav-link">
+                    <i class="nav-icon fas  {{$menu['icon']}}"></i>
+                    <p>              
+                      {{$menu['label']}}
+                      @if (isset($menu['items']))
+                        <i class="right fas fa-angle-left"></i>
+                      @endif                
+                    </p>
+                  </a>
+                  @if (isset($menu['items']))
+                  <ul class="nav nav-treeview">
+                    @foreach ($menu['items'] as $item)
+                    <li class="nav-item">
+                      <a href=" {{url($item['route'])}}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p> {{$item['label']}}</p>
+                      </a>
+                    </li>  
+                    @endforeach  
+                  </ul>
+                  @endif   
+                </li>       
+              @endif    
+            @endforeach
+            <li class="nav-item">
+              <a href="{{url('admin/customer/list')}}" class="nav-link">
+                <i class="nav-icon fas fa-user"></i>
+                <p>
+                  Quản lý khách hàng
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="{{url('admin/customer/list')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Danh sách khách hàng</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{url('admin/customer/add')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Thêm khách hàng</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+          @else
+            @foreach ($menus as $key => $menu)
+            <li class="nav-item">
+              <a href="{{url($menu['route'])}}" class="nav-link">
+                <i class="nav-icon fas  {{$menu['icon']}}"></i>
+                <p>              
+                  {{$menu['label']}}
+                  @if (isset($menu['items']))
+                    <i class="right fas fa-angle-left"></i>
+                  @endif                
+                </p>
+              </a>
+              @if (isset($menu['items']))
+              <ul class="nav nav-treeview">
+                @foreach ($menu['items'] as $item)
+                <li class="nav-item">
+                  <a href=" {{url($item['route'])}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p> {{$item['label']}}</p>
+                  </a>
+                </li>
+                @endforeach
+              </ul>
+              @endif
+            </li>
+            @endforeach          
+          @endif
+         
+          
+        
+
+          {{-- @foreach ($menus as $key => $menu)
           <li class="nav-item">
             <a href="{{url($menu['route'])}}" class="nav-link">
               <i class="nav-icon fas  {{$menu['icon']}}"></i>
@@ -49,10 +132,11 @@
                 </a>
               </li>
               @endforeach
+
             </ul>
             @endif
           </li>
-          @endforeach          
+          @endforeach           --}}
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

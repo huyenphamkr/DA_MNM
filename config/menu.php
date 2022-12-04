@@ -1,11 +1,13 @@
 <?php
 return [
     [
+        'id' => '2',
         'label' => 'Trang Chủ',
         'route' => 'admin/home',
         'icon' => 'fa-home'
     ],
     [
+        'id' => '2',
         'label' => 'Quản Lý Danh Mục',
         'route' => 'admin/category/list',
         'icon' => 'fa-bars',
@@ -21,6 +23,7 @@ return [
         ]
     ],
     [
+        'id' => '2',
         'label' => 'Quản Lý Sản Phẩm',
         'route' => 'admin/product/list',
         'icon' => 'fa-couch',
@@ -36,6 +39,7 @@ return [
         ]
     ],
     [
+        'id' => '2',
         'label' => 'Quản Lý Slide',
         'route' => 'admin/slide/list',
         'icon' => 'fa-images',
@@ -51,6 +55,7 @@ return [
         ]
     ],
     [
+        'id' => '2',
         'label' => 'Quản Lý Đơn Đặt Hàng',
         'route' => 'admin/orders/list',
         'icon' => 'fa-folder-open',
@@ -66,6 +71,7 @@ return [
         ]
     ],
     [
+        'id' => '2',
         'label' => 'Quản Lý Phiếu Nhập',
         'route' => 'admin/purchases/list',
         'icon' => 'fa-clipboard',
@@ -80,7 +86,7 @@ return [
             ]
         ]
     ],
-    [
+    [        
         'label' => 'Quản Lý Người Dùng',
         'route' => 'admin/account/list',
         'icon' => 'fa-user',
@@ -96,6 +102,7 @@ return [
         ]
     ],
     [
+        'id' => '2',
         'label' => 'Quản Lý Nhà Cung Cấp',
         'route' => 'admin/supplier/list',
         'icon' => 'fa-truck',
@@ -111,6 +118,7 @@ return [
         ]
     ],
     [
+        'id' => '2',
         'label' => 'Thống Kê',
         'route' => 'admin/statistic/list',
         'icon' => 'fa-chart-bar',

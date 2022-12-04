@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PurchaseController;
@@ -10,7 +11,10 @@ use App\Http\Controllers\Admin\SlideController;
 use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\UserController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\Warehouse\OrdersController as WarehouseOrdersController;
+use App\Http\Controllers\Admin\Warehouse\ProductController as WarehouseProductController;
+use App\Http\Controllers\Admin\Warehouse\PurchaseController as WarehousePurchaseController;
+use App\Http\Controllers\Admin\Warehouse\SupplierController as WarehouseSupplierController;
 
 
 use App\Http\Controllers\Front\AccountController;
@@ -242,6 +246,20 @@ Route::middleware(['auth'])->group(function(){
             // Route::get('destroy/{id}',[UserController::class,'destroy']);                  
         });
 
+         //khách hàng
+         Route::prefix('customer')->group(function (){
+            //Hiển thị danh sách
+            Route::get('list',[CustomerController::class,'index']);
+            // //Thêm
+            Route::get('add',[CustomerController::class,'create']);
+            Route::post('add',[CustomerController::class,'store']);
+            // //Cập nhật
+             Route::get('edit/{id}',[CustomerController::class,'edit']);
+             Route::post('edit/{id}',[CustomerController::class,'update']);
+            // //Xóa
+            // Route::get('destroy/{id}',[UserController::class,'destroy']);                  
+        });
+
         //Nhà cung cấp- Supplier
         Route::prefix('supplier')->group(function (){
             //Thêm
@@ -260,6 +278,86 @@ Route::middleware(['auth'])->group(function(){
          Route::prefix('statistic')->group(function (){
              //Hiển thị danh sách
             Route::get('vip',[StatisticController::class,'vip'])->name('vip');            
-        });        
+        });  
+
+        //Quản lý kho
+        Route::prefix('warehouse')->group(function (){
+            // Sửa đường dẫn trang chủ mặc định
+            Route::get('/', [HomeController::class,'index'])->name('home');
+            Route::get('home', [HomeController::class,'index'])->name('home');  
+
+            //Sản phẩm Product
+            Route::prefix('product')->group(function (){
+                //Hiển thị danh sách
+                Route::get('list',[WarehouseProductController::class,'index']);
+                //Thêm
+                Route::get('add',[WarehouseProductController::class,'create']);
+                Route::post('add',[WarehouseProductController::class,'store']);
+                //Cập nhật
+                Route::get('edit/{id}',[WarehouseProductController::class,'edit']);
+                Route::post('edit/{id}',[WarehouseProductController::class,'update']);
+                //Xóa
+                Route::get('destroy/{id}',[WarehouseProductController::class,'destroy']);                  
+            });
+            //Hóa đơn Orders
+            Route::prefix('orders')->group(function (){
+                //Hiển thị danh sách
+                Route::get('list',[WarehouseOrdersController::class,'index'])->name('warehousefilter');
+                //Thêm hóa đơn
+                Route::get('add',[WarehouseOrdersController::class,'create']);
+                Route::post('adddetail/{id}',[WarehouseOrdersController::class,'adddetail']);
+                Route::post('add',[WarehouseOrdersController::class,'store']);
+                Route::post('add/load',[WarehouseOrdersController::class,'getProducts']);    
+                //Cập nhật
+                Route::get('show/{id}',[WarehouseOrdersController::class,'show']);
+                Route::post('show/update/{ordersid}/{statusid}',[WarehouseOrdersController::class,'update']);
+                //Xóa
+                Route::get('destroy/{id}',[WarehouseOrdersController::class,'destroy']);  
+                //in  
+                Route::get('print/{id}',[WarehouseOrdersController::class,'print']);       
+                //lấy thông tin khách hàng qua id
+                Route::post('getinfo/{id}',[WarehouseOrdersController::class,'getInfoID']);       
+                //tìm kiếm
+                Route::get('add/search',[WarehouseOrdersController::class,'getProducts']);  
+            });
+            //phiếu nhập
+            Route::prefix('purchase')->group(function (){
+                //Hiển thị danh sách
+                Route::get('list',[WarehousePurchaseController::class,'index']);
+                //Xem chi tiết
+                Route::get('show/{id}',[WarehousePurchaseController::class,'show']);
+                //in  
+                Route::get('print/{id}',[WarehousePurchaseController::class,'print']);     
+                //Thêm
+                Route::get('add',[WarehousePurchaseController::class,'create']);
+                Route::post('add',[WarehousePurchaseController::class,'store']);      
+                Route::post('add/load',[WarehousePurchaseController::class,'getProducts']);             
+                Route::post('detail/{id}',[WarehousePurchaseController::class,'add']);
+                //tìm kiếm
+                Route::get('add/search',[WarehousePurchaseController::class,'getProducts']);              
+            });    
+
+            //Nhà cung cấp- Supplier
+            Route::prefix('supplier')->group(function (){
+                //Thêm
+                Route::get('add',[WarehouseSupplierController::class,'create']);
+                Route::post('add',[WarehouseSupplierController::class,'store']);
+                //Hiển thị danh sách
+                Route::get('list',[WarehouseSupplierController::class,'index']);
+                //Xóa
+                Route::get('destroy/{id}',[WarehouseSupplierController::class,'destroy']);
+                //Cập nhật
+                Route::get('edit/{id}',[WarehouseSupplierController::class,'edit']);
+                Route::post('edit/{id}',[WarehouseSupplierController::class,'update']);        
+            });
+            //Thống kê
+        //     Route::prefix('statistic')->group(function (){
+        //         //Hiển thị danh sách
+        //        Route::get('revenue',[WarehouseStatisticController::class,'revenue'])->name('WarehouseRevenue');            
+        //    }); 
+        });
+        
+        
+        
     });
 });

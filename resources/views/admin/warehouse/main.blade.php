@@ -73,7 +73,7 @@
   <!-- /.navbar -->
 
 
-  @include('admin.slidebar')
+  @include('admin.warehouse.slidebar')
 
 
   <!-- Content Wrapper. Contains page content -->

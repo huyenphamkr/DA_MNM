@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Warehouse;
 
 use App\Http\Controllers\Controller;
 use App\Models\Orders;
@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
-{
-    
+{    
     public function __construct()
     {
         date_default_timezone_set("Asia/Ho_Chi_Minh");
@@ -77,8 +76,8 @@ class OrdersController extends Controller
             return response()->json(['orderslist'=>$orderslist, 'statuslist'=>$statuslist,'users'=>$users]);
         }
         $orderslist = $query->orderByDesc('id')->Search()->paginate(10);
-        return view('admin.orders.list',[
-            'title'=>'Danh Sách Hóa Đơn',
+        return view('admin.warehouse.orders.list',[
+            'title'=>'Danh Sách Phiếu Xuất',
             'orderslist'=>$orderslist,
             'statuslist'=>$statuslist,
             'users'=>$users,
@@ -104,6 +103,7 @@ class OrdersController extends Controller
                 ]);
             }
         }
+
         if($statusID == 6)
         {
             if($status_id_old > 1) // 2 3 4 5 6
@@ -171,8 +171,8 @@ class OrdersController extends Controller
         $employees = Orders::where('id','=',$id)->with('employee')->get();
         $orders = Orders::where('id','=',$id)->with('products')->get();
         $statuslist = Status::all();
-        return view('admin.orders.show',[
-            'title'=>'Chi Tiết Hóa Đơn: #'.$id,
+        return view('admin.warehouse.orders.show',[
+            'title'=>'Chi Tiết Phiếu Xuất: #'.$id,
             'orders'=>$orders,
             'customers'=>$customers,
             'employees'=>$employees,
@@ -185,7 +185,7 @@ class OrdersController extends Controller
         $employees = Orders::where('id','=',$id)->with('employee')->get();
         $orders = Orders::where('id','=',$id)->with('products')->get();
         
-        return view('admin.orders.print',[
+        return view('admin.warehouse.orders.print',[
             'title'=>'Orders #'.$id,
             'orders'=>$orders,
             'customers'=>$customers,
@@ -197,7 +197,7 @@ class OrdersController extends Controller
     {
         $categories = Category::all();
         $products = Product::where('active','=','1')->get();
-        return view('admin.orders.add',[
+        return view('admin.warehouse.orders.add',[
             'title'=>'Lập đơn đặt hàng',
             'categories'=>$categories,
             'products'=>$products,
@@ -259,12 +259,12 @@ class OrdersController extends Controller
                     'phone_number'=>$phone,
                 ]);
             }
-            session()->flash('success', 'Thêm hóa đơn thành Công');
+            session()->flash('success', 'Thành Công');
         }catch(\Exception $err){
              $check = false;
            // session()->flash('error', "Thêm hóa đơn thất bại ! ");
         }
-        return redirect('admin/orders/add');
+        return redirect('admin/warehouse/orders/add');
     }
 
     public function getInfoID($id)
