@@ -1,0 +1,1 @@
+<h3> QAn ly kho</h3><?php /**PATH D:\xampp\htdocs\PTPMMNM\DA_MNM\resources\views/admin/warehouse/index.blade.php ENDPATH**/ ?>
